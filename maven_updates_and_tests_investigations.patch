@@ -1,0 +1,765 @@
+Index: org.ektorp.android/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp.android/pom.xml	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp.android/pom.xml	(date 1525022468000)
+@@ -21,18 +21,20 @@
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+-           <version>4.0.1.2</version>
++           <version>4.1.1.4</version>
+            <scope>provided</scope>
+        </dependency>
+ 
+         <dependency>
+             <groupId>org.mockito</groupId>
+             <artifactId>mockito-all</artifactId>
++            <version>${mockito.version}</version>
+             <scope>test</scope>
+         </dependency>
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
++            <version>${junit.version}</version>
+             <scope>test</scope>
+         </dependency>
+     </dependencies>
+Index: org.ektorp/src/test/java/org/ektorp/impl/StdCouchDbConnectorTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/impl/StdCouchDbConnectorTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/impl/StdCouchDbConnectorTest.java	(date 1525030572000)
+@@ -91,26 +91,16 @@
+         doReturn(HttpResponseStub.valueOf(201, OK_RESPONSE_WITH_ID_AND_REV)).when(httpClient).put(anyString(), anyString());
+ 
+         JsonNode root;
+-        {
+-            InputStream resourceAsStream = null;
+-            try {
+-                resourceAsStream = StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json");
+-                root = new ObjectMapper().readValue(resourceAsStream, JsonNode.class);
+-            } finally {
+-                IOUtils.closeQuietly(resourceAsStream);
+-            }
++        try ( InputStream resourceAsStream =
++                          StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json")) {
++            root = new ObjectMapper().readValue(resourceAsStream, JsonNode.class);
+         }
+         dbCon.create("some_id", root);
+ 
+         String facit;
+-        {
+-            InputStream resourceAsStream = null;
+-            try {
+-                resourceAsStream = StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json");
+-                facit = IOUtils.toString(resourceAsStream, "UTF-8").trim();
+-            } finally {
+-                IOUtils.closeQuietly(resourceAsStream);
+-            }
++        try (InputStream resourceAsStream =
++                     StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json")){
++            facit = IOUtils.toString(resourceAsStream, "UTF-8").trim();
+         }
+         verify(httpClient).put("/test_db/some_id", facit);
+     }
+Index: org.ektorp/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/pom.xml	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/pom.xml	(date 1525030302000)
+@@ -40,53 +40,69 @@
+ 			<artifactId>commons-io</artifactId>
+ 			<version>${commons.io.version}</version>
+ 		</dependency>
+-        <dependency>
+-            <groupId>commons-lang</groupId>
+-            <artifactId>commons-lang</artifactId>
+-            <version>2.6</version>
++       <dependency>
++            <groupId>org.apache.commons</groupId>
++            <artifactId>commons-lang3</artifactId>
++			<version>${commons-lang3.version}</version>
+             <scope>test</scope>
+         </dependency>
+ 		<dependency>
+ 			<groupId>org.slf4j</groupId>
+ 			<artifactId>slf4j-api</artifactId>
++			<version>${slf4j.version}</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.slf4j</groupId>
+ 			<!-- commons-logging API required by apache httpclient -->
+ 			<artifactId>jcl-over-slf4j</artifactId>
++			<version>${slf4j.version}</version>
+ 			<scope>runtime</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.slf4j</groupId>
+ 			<artifactId>slf4j-simple</artifactId>
++			<version>${slf4j.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.mockito</groupId>
+ 			<artifactId>mockito-all</artifactId>
++			<version>${mockito.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>junit</groupId>
+ 			<artifactId>junit</artifactId>
++			<version>${junit.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>joda-time</groupId>
+ 			<artifactId>joda-time</artifactId>
++			<version>${joda-time.version}</version>
++			<scope>test</scope>
++		</dependency>
++		<!-- http://joel-costigliola.github.io/assertj/assertj-news.html -->
++		<dependency>
++			<groupId>org.assertj</groupId>
++			<artifactId>assertj-core</artifactId>
++			<version>2.9.0</version>
+ 			<scope>test</scope>
+ 		</dependency>
+         <dependency>
+             <groupId>com.fasterxml.jackson.datatype</groupId>
+             <artifactId>jackson-datatype-joda</artifactId>
++			<version>${jackson.version}</version>
+         </dependency>
+ 		<dependency>
+ 			<groupId>com.fasterxml.jackson.core</groupId>
+ 			<artifactId>jackson-annotations</artifactId>
++			<version>${jackson.version}</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.fasterxml.jackson.core</groupId>
+ 			<artifactId>jackson-core</artifactId>
++			<version>${jackson.version}</version>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>com.fasterxml.jackson.core</groupId>
+Index: org.ektorp.spring/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp.spring/pom.xml	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp.spring/pom.xml	(date 1525022404000)
+@@ -43,21 +43,25 @@
+ 		<dependency>
+ 			<groupId>junit</groupId>
+ 			<artifactId>junit</artifactId>
++			<version>${junit.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.mockito</groupId>
+ 			<artifactId>mockito-all</artifactId>
++			<version>${mockito.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>org.slf4j</groupId>
+ 			<artifactId>slf4j-log4j12</artifactId>
++			<version>${slf4j.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 		<dependency>
+ 			<groupId>log4j</groupId>
+ 			<artifactId>log4j</artifactId>
++			<version>${log4j.version}</version>
+ 			<scope>test</scope>
+ 		</dependency>
+ 	</dependencies>
+Index: org.ektorp/src/test/java/org/ektorp/support/DesignDocumentTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/support/DesignDocumentTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/support/DesignDocumentTest.java	(date 1525030917000)
+@@ -141,8 +141,7 @@
+ 		assertSerialization(om);
+ 	}
+ 
+-	private void assertSerialization(ObjectMapper om) throws IOException,
+-			JsonGenerationException, JsonMappingException {
++	private void assertSerialization(ObjectMapper om) throws IOException {
+ 		String json = om.writeValueAsString(dd);
+ 		String expected = IOUtils.toString(getClass().getResourceAsStream("design_doc.json"));
+ 		assertTrue(JSONComparator.areEqual(json, expected));
+Index: org.ektorp/src/test/java/org/ektorp/impl/docref/DocumentReferenceTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/impl/docref/DocumentReferenceTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/impl/docref/DocumentReferenceTest.java	(date 1525029732000)
+@@ -74,7 +74,7 @@
+ 		nisse.setShoeSize(52);
+ 		nisse.setRevision("123D123");
+ 		
+-		assertEquals(true, ektorp.getSeatedPeople().contains(nisse));
++		assertTrue(ektorp.getSeatedPeople().contains(nisse));
+ 
+ 		verify(httpClient)
+ 				.getUncached(Matchers
+@@ -91,7 +91,7 @@
+ 		assertNotNull(lounge);
+ 		Iterator<Person> seatedPeopleIterator = lounge.getSeatedPeople()
+ 				.iterator();
+-		assertEquals(true, seatedPeopleIterator.hasNext());
++		assertTrue(seatedPeopleIterator.hasNext());
+ 		
+ 		Person nextReferencedDoc = seatedPeopleIterator.next();
+ 		verifyLoungeGET();
+Index: org.ektorp/src/test/java/org/ektorp/http/URITest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/http/URITest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/http/URITest.java	(date 1525024150000)
+@@ -30,7 +30,8 @@
+ 	
+ 	@Test
+ 	public void params() {
+-		assertEquals("http://example.com:4510/my_db/my_doc?startKey=%22test%22&endKey=%22test%22", URI.of("http://example.com:4510")
++		assertEquals("http://example.com:4510/my_db/my_doc?startKey=%22test%22&endKey=%22test%22",
++				URI.of("http://example.com:4510")
+ 															.append("my_db")
+ 															.append("my_doc")
+ 															.param("startKey", "\"test\"")
+@@ -45,7 +46,7 @@
+ 		.append("my_doc")
+ 		.param("startKey", "\"test\"")
+ 		.param("endKey", "\"test\"");
+-		uri.toString();
+-		assertEquals("http://example.com:4510/my_db/my_doc?startKey=%22test%22&endKey=%22test%22", uri.toString());
++		assertEquals("http://example.com:4510/my_db/my_doc?startKey=%22test%22&endKey=%22test%22",
++				uri.toString());
+ 	}
+ }
+Index: org.ektorp/src/main/java/org/ektorp/impl/changes/StdDocumentChange.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/main/java/org/ektorp/impl/changes/StdDocumentChange.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/main/java/org/ektorp/impl/changes/StdDocumentChange.java	(date 1525027202000)
+@@ -68,7 +68,7 @@
+ 	}
+ 
+     public List<String> getRevisions() {
+-        List<String> revisions = new ArrayList<String>();
++        List<String> revisions = new ArrayList<>();
+         for (JsonNode changesNode : node.get(CHANGES_FIELD_NAME)) {
+             revisions.add(nodeAsString(changesNode.get(REV_FIELD_NAME)));
+         }
+Index: org.ektorp/src/test/java/org/ektorp/impl/changes/StdDocumentChangeTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/impl/changes/StdDocumentChangeTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/impl/changes/StdDocumentChangeTest.java	(date 1525029149000)
+@@ -2,8 +2,6 @@
+ 
+ import com.fasterxml.jackson.databind.JsonNode;
+ import com.fasterxml.jackson.databind.ObjectMapper;
+-import junit.framework.Assert;
+-import org.apache.commons.io.IOUtils;
+ import org.ektorp.StreamingChangesResult;
+ import org.ektorp.changes.DocumentChange;
+ import org.ektorp.http.HttpResponse;
+@@ -12,23 +10,28 @@
+ 
+ import java.io.IOException;
+ import java.io.InputStream;
++import java.util.List;
+ 
+ import static org.hamcrest.CoreMatchers.is;
+ import static org.hamcrest.CoreMatchers.notNullValue;
+ import static org.junit.Assert.*;
+-import static org.junit.matchers.JUnitMatchers.hasItems;
++import static org.assertj.core.api.Assertions.*;
+ 
+ public class StdDocumentChangeTest {
+ 
+-	ObjectMapper mapper = new ObjectMapper();
++	private final static ObjectMapper mapper = new ObjectMapper();
+ 
+ 	@Test
+-	public void test_normal_message() throws IOException {
+-		StdDocumentChange m = new StdDocumentChange(load("change_message.json"));
+-		assertMandatoryFields(m);
+-		assertNull(m.getDoc());
+-		assertTrue(m.getDocAsNode().isMissingNode());
+-		assertFalse(m.isDeleted());
++	public void test_normal_message() {
++	    try {
++            StdDocumentChange m = new StdDocumentChange(load("change_message.json"));
++            assertMandatoryFields(m);
++            assertNull(m.getDoc());
++            assertTrue(m.getDocAsNode().isMissingNode());
++            assertFalse(m.isDeleted());
++        } catch (IOException e) {
++	        fail("", e);
++        }
+ 	}
+ 
+ 	private void assertMandatoryFields(StdDocumentChange m) {
+@@ -38,69 +41,84 @@
+ 	}
+ 
+ 	@Test
+-	public void test_deleted_doc_message() throws IOException {
+-		StdDocumentChange m = new StdDocumentChange(load("change_message_w_deleted_doc.json"));
+-		assertMandatoryFields(m);
+-		assertTrue(m.isDeleted());
++	public void test_deleted_doc_message() {
++	    try {
++            StdDocumentChange m = new StdDocumentChange(load("change_message_w_deleted_doc.json"));
++            assertMandatoryFields(m);
++            assertTrue(m.isDeleted());
++        } catch (IOException e) {
++            fail("", e);
++        }
+ 	}
+ 
+ 	@Test
+-	public void test_message_with_included_doc() throws IOException {
+-		StdDocumentChange m = new StdDocumentChange(load("change_message_w_included_doc.json"));
+-		assertMandatoryFields(m);
+-		assertNotNull(m.getDoc());
+-		assertFalse(m.getDocAsNode().isMissingNode());
+-		assertNotNull(m.getDocAsNode().findValue("_id"));
+-		assertNotNull(m.getDocAsNode().findValue("_rev"));
++	public void test_message_with_included_doc()  {
++        try {
++            StdDocumentChange m = new StdDocumentChange(load("change_message_w_included_doc.json"));
++            assertMandatoryFields(m);
++            assertNotNull(m.getDoc());
++            assertFalse(m.getDocAsNode().isMissingNode());
++            assertNotNull(m.getDocAsNode().findValue("_id"));
++            assertNotNull(m.getDocAsNode().findValue("_rev"));
++        } catch (IOException e) {
++            fail("", e);
++        }
+ 	}
+ 
+     @Test
+-    public void getRevision_should_return_the_first_revision_when_there_are_multiple_changes() throws IOException
+-    {
+-        StdDocumentChange objectUnderTest = new StdDocumentChange(load("change_message_w_multiple_revs.json"));
+-        assertThat(objectUnderTest.getId(), is("doc_id"));
+-        assertThat(objectUnderTest.getRevision(), is("rev-first"));
+-        assertNull(objectUnderTest.getDoc());
+-        assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
+-        assertFalse(objectUnderTest.isDeleted());
++    public void getRevision_should_return_the_first_revision_when_there_are_multiple_changes() {
++	    try {
++            StdDocumentChange objectUnderTest = new StdDocumentChange(load("change_message_w_multiple_revs.json"));
++            assertThat(objectUnderTest.getId(), is("doc_id"));
++            assertThat(objectUnderTest.getRevision(), is("rev-first"));
++            assertNull(objectUnderTest.getDoc());
++            assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
++            assertFalse(objectUnderTest.isDeleted());
++        } catch (IOException e) {
++            e.printStackTrace();
++            fail("", e);
++        }
+     }
+ 
+     @Test
+-    public void getRevisions_should_return_a_List_of_all_the_changes() throws IOException
+-    {
+-        StdDocumentChange objectUnderTest = new StdDocumentChange(load("change_message_w_multiple_revs.json"));
+-        assertThat(objectUnderTest.getId(), is("doc_id"));
+-        assertThat(objectUnderTest.getRevision(), is("rev-first"));
+-        assertThat(objectUnderTest.getRevisions(), notNullValue());
+-        assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
+-        assertThat(objectUnderTest.getRevisions().size(), is(3));
+-        assertNull(objectUnderTest.getDoc());
+-        assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
+-        assertFalse(objectUnderTest.isDeleted());
++    public void getRevisions_should_return_a_List_of_all_the_changes() {
++        try {
++            StdDocumentChange objectUnderTest = new StdDocumentChange(load("change_message_w_multiple_revs.json"));
++            assertThat(objectUnderTest.getId(), is("doc_id"));
++            assertThat(objectUnderTest.getRevision(), is("rev-first"));
++            assertThat(objectUnderTest.getRevisions(), notNullValue());
++            List<String> revisions = objectUnderTest.getRevisions();
++            org.assertj.core.api.Assertions.assertThat(revisions).containsExactly("rev-first", "rev-second", "rev-third");
++            //assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
++            assertThat(objectUnderTest.getRevisions().size(), is(3));
++            assertNull(objectUnderTest.getDoc());
++            assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
++            assertFalse(objectUnderTest.isDeleted());
++        } catch (IOException e) {
++            e.printStackTrace();
++            fail("", e);
++        }
+     }
+-
+ 
+     @Test
+-    public void test_streaming_changes() throws IOException {
++    public void test_streaming_changes() {
+ 	    HttpResponse httpResponse = ResponseOnFileStub.newInstance(200, "changes/changes_full.json");
+ 	    
+ 	    StreamingChangesResult changes = new StreamingChangesResult(new ObjectMapper(), httpResponse);
+ 	    int i = 0;
+         for (DocumentChange documentChange : changes) {
+-            Assert.assertEquals(++i, documentChange.getSequence());
++            assertEquals(++i, documentChange.getSequence());
+         }
+-        Assert.assertEquals(5, changes.getLastSeq());
++        assertEquals(5, changes.getLastSeq());
+         changes.close();
+     }
+ 
+-	private JsonNode load(String id) throws IOException {
+-        InputStream resourceAsStream = null;
+-        try {
+-            resourceAsStream = getClass().getResourceAsStream(id);
+-            return mapper.readTree(resourceAsStream);
+-        } finally {
+-            IOUtils.closeQuietly(resourceAsStream);
++	private JsonNode load(final String id) throws IOException {
++        JsonNode jsonNode;
++        try (InputStream resourceAsStream = getClass().getResourceAsStream(id)){
++             jsonNode = mapper.readTree(resourceAsStream);
+         }
++        return jsonNode;
+ 	}
+ 
+ }
+Index: org.ektorp/src/test/java/org/ektorp/impl/jackson/EktorpJacksonModuleTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/impl/jackson/EktorpJacksonModuleTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/impl/jackson/EktorpJacksonModuleTest.java	(date 1525024386000)
+@@ -39,7 +39,8 @@
+ 		p.addChild(new ChildDoc("cid","crev"));
+ 
+ 		String json = mapper.writeValueAsString(p);
+-		assertFalse("children field should be absent from json", json.matches(".*children.*"));
++		assertFalse("children field should be absent from json",
++				json.matches(".*children.*"));
+ 	}
+ 
+ 	@Test
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- pom.xml	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ pom.xml	(date 1525029559000)
+@@ -50,21 +50,22 @@
+     </modules>
+ 
+     <properties>
+-        <slf4j.version>1.6.4</slf4j.version>
+-        <log4j.version>1.2.13</log4j.version>
+-        <mockito.version>1.8.5</mockito.version>
+-        <mockito.version>1.8.5</mockito.version>
+-        <junit.version>4.8.2</junit.version>
+-        <joda.time.version>2.3</joda.time.version>
+-        <jackson.version>2.6.7</jackson.version>
+-        <spring.version>3.1.1.RELEASE</spring.version>
+-        <commons.io.version>2.0.1</commons.io.version>
+-        <httpclient.version>4.3</httpclient.version>
+-        <aspectj.version>1.6.9</aspectj.version>
++        <slf4j.version>1.7.25</slf4j.version>
++        <log4j.version>1.2.17</log4j.version>
++        <joda-time.version>2.9.9</joda-time.version>
++        <jackson.version>2.9.5</jackson.version><!-- 2.6.7  -->
++        <spring.version>3.2.18.RELEASE</spring.version>
++        <commons.io.version>2.6</commons.io.version>
++        <commons-lang3.version>3.7</commons-lang3.version>
++        <httpclient.version>4.5.5</httpclient.version><!-- 4.3 -->
++        <aspectj.version>1.6.12</aspectj.version><!-- 1.9.1 -->
+         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+ 
+         <findbugs.skip>false</findbugs.skip>
+         <findbugs.includeTests>true</findbugs.includeTests>
++
++        <mockito.version>1.8.5</mockito.version>
++        <junit.version>4.12</junit.version>
+     </properties>
+ 
+     <dependencyManagement>
+@@ -131,11 +132,31 @@
+                 <scope>test</scope>
+             </dependency>
+             <dependency>
++                <groupId>junit</groupId>
++                <artifactId>junit-dep</artifactId>
++                <version>4.11</version>
++                <scope>test</scope>
++            </dependency>
++            <dependency>
+                 <groupId>joda-time</groupId>
+                 <artifactId>joda-time</artifactId>
+                 <version>${joda.time.version}</version>
+                 <scope>test</scope>
+             </dependency>
++            <!-- http://joel-costigliola.github.io/assertj/assertj-news.html -->
++            <dependency>
++                <groupId>org.assertj</groupId>
++                <artifactId>assertj-core</artifactId>
++                <version>2.9.0</version>
++                <scope>test</scope>
++            </dependency>
++            <!-- http://jsonassert.skyscreamer.org/cookbook.html -->
++            <dependency>
++                <groupId>org.skyscreamer</groupId>
++                <artifactId>jsonassert</artifactId>
++                <version>1.5.0</version>
++                <scope>test</scope>
++            </dependency>
+         </dependencies>
+     </dependencyManagement>
+ 
+@@ -166,17 +187,17 @@
+         <plugins>
+             <plugin>
+                 <artifactId>maven-compiler-plugin</artifactId>
+-                <version>2.4</version>
++                <version>3.7.0</version>
+                 <configuration>
+-                    <source>1.6</source>
+-                    <target>1.6</target>
++                    <source>1.7</source>
++                    <target>1.7</target>
+                     <encoding>UTF-8</encoding>
+                 </configuration>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-resources-plugin</artifactId>
+-                <version>2.5</version>
++                <version>3.0.2</version>
+                 <configuration>
+                     <encoding>UTF-8</encoding>
+                 </configuration>
+@@ -184,7 +205,7 @@
+             <plugin>
+                 <groupId>org.codehaus.mojo</groupId>
+                 <artifactId>versions-maven-plugin</artifactId>
+-                <version>2.3</version>
++                <version>2.5</version>
+             </plugin>
+             <plugin>
+                 <artifactId>maven-scm-plugin</artifactId>
+@@ -196,7 +217,7 @@
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-release-plugin</artifactId>
+-                <version>2.0</version>
++                <version>2.5.3</version>
+                 <configuration>
+                     <mavenExecutorId>forked-path</mavenExecutorId>
+                     <localCheckout>true</localCheckout>
+@@ -204,7 +225,7 @@
+             </plugin>
+             <plugin>
+                 <artifactId>maven-source-plugin</artifactId>
+-                <version>2.2.1</version>
++                <version>3.0.1</version>
+                 <executions>
+                     <execution>
+                         <id>attach-sources</id>
+@@ -217,7 +238,7 @@
+             <plugin>
+                 <!-- http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html -->
+                 <artifactId>maven-javadoc-plugin</artifactId>
+-                <version>2.10.4</version>
++                <version>3.0.0</version>
+                 <configuration>
+                     <additionalparam>${javadoc.opts}</additionalparam>
+                 </configuration>
+@@ -268,18 +289,7 @@
+             </testResource>
+         </testResources>
+     </build>
+-    <distributionManagement>
+-        <snapshotRepository>
+-            <id>sonatype-nexus-snapshots</id>
+-            <name>Sonatype Nexus Snapshots</name>
+-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+-        </snapshotRepository>
+-        <repository>
+-            <id>sonatype-nexus-staging</id>
+-            <name>Nexus Release Repository</name>
+-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+-        </repository>
+-    </distributionManagement>
++
+     <profiles>
+         <profile>
+             <id>release-sign-artifacts</id>
+@@ -308,19 +318,6 @@
+                 </plugins>
+             </build>
+         </profile>
+-
+-        <profile>
+-            <id>maven-2</id>
+-            <activation>
+-                <file>
+-                    <!-- basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+-                    <missing>${basedir}</missing>
+-                </file>
+-            </activation>
+-            <properties>
+-                <sonarVersion>1.0</sonarVersion>
+-            </properties>
+-        </profile>
+         <profile>
+             <id>maven-3</id>
+             <activation>
+@@ -334,15 +331,6 @@
+             </properties>
+         </profile>
+         <profile>
+-            <id>jdk16</id>
+-            <activation>
+-                <jdk>1.6</jdk>
+-            </activation>
+-            <properties>
+-                <findbugs.plugin.version>2.5.3</findbugs.plugin.version>
+-            </properties>
+-        </profile>
+-        <profile>
+             <id>jdk7</id>
+             <activation>
+                 <jdk>1.7</jdk>
+@@ -357,7 +345,7 @@
+                 <jdk>[1.8,)</jdk>
+             </activation>
+             <properties>
+-                <findbugs.plugin.version>3.0.0</findbugs.plugin.version>
++                <findbugs.plugin.version>3.0.1</findbugs.plugin.version>
+             </properties>
+         </profile>
+         <profile>
+@@ -369,5 +357,41 @@
+                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
+             </properties>
+         </profile>
++
++        <profile>
++            <id>errorProne</id>
++            <build>
++                <plugins>
++                <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <version>3.7.0</version>
++                <configuration>
++                    <compilerId>javac-with-errorprone</compilerId>
++                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
++                    <!-- maven-compiler-plugin defaults to targeting Java 5, but our javac
++                         only supports >=6 -->
++                    <source>7</source>
++                    <target>7</target>
++                </configuration>
++                <dependencies>
++                    <dependency>
++                        <groupId>org.codehaus.plexus</groupId>
++                        <artifactId>plexus-compiler-javac-errorprone</artifactId>
++                        <version>2.8.3</version>
++                    </dependency>
++                    <!-- override plexus-compiler-javac-errorprone's dependency on
++                         Error Prone with the latest version -->
++                    <dependency>
++                        <groupId>com.google.errorprone</groupId>
++                        <artifactId>error_prone_core</artifactId>
++                        <version>2.3.1</version>
++                    </dependency>
++                </dependencies>
++                </plugin>
++                </plugins>
++            </build>
++        </profile>
++
+     </profiles>
+ </project>
+Index: org.ektorp/src/test/java/org/ektorp/http/BulkTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/test/java/org/ektorp/http/BulkTest.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/test/java/org/ektorp/http/BulkTest.java	(date 1525024150000)
+@@ -4,7 +4,7 @@
+ import com.fasterxml.jackson.databind.ObjectMapper;
+ import com.fasterxml.jackson.databind.node.ObjectNode;
+ import org.apache.commons.io.input.ReaderInputStream;
+-import org.apache.commons.lang.RandomStringUtils;
++import org.apache.commons.lang3.RandomStringUtils;
+ import org.ektorp.*;
+ import org.ektorp.impl.StdCouchDbConnector;
+ import org.ektorp.impl.StdCouchDbInstance;
+@@ -100,7 +100,6 @@
+             builder = builder.proxy(proxyHost).proxyPort(Integer.parseInt(proxyPort));
+         }
+ 
+-
+         httpClient = builder.build();
+         dbInstance = new StdCouchDbInstance(httpClient);
+ 
+Index: org.ektorp/src/main/java/org/ektorp/http/JacksonableEntity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- org.ektorp/src/main/java/org/ektorp/http/JacksonableEntity.java	(revision b822c0d656aefb90a5e0cb5ec2de3daa969e3eaa)
++++ org.ektorp/src/main/java/org/ektorp/http/JacksonableEntity.java	(date 1525021952000)
+@@ -1,7 +1,7 @@
+ package org.ektorp.http;
+ 
+ import com.fasterxml.jackson.databind.ObjectMapper;
+-import org.apache.http.annotation.NotThreadSafe;
++//import org.apache.http.annotation.NotThreadSafe;
+ import org.apache.http.entity.AbstractHttpEntity;
+ import org.ektorp.util.Assert;
+ import org.ektorp.util.Exceptions;
+@@ -16,7 +16,7 @@
+  *
+  * @see org.apache.http.entity.SerializableEntity
+  */
+-@NotThreadSafe
++//@NotThreadSafe
+ @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "HE_EQUALS_USE_HASHCODE")
+ public class JacksonableEntity extends AbstractHttpEntity {
+ 
+@@ -66,9 +66,10 @@
+     }
+ 
+     private void createBytes(final Object ser) throws IOException {
+-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+-        objectMapper.writeValue(baos, ser);
+-        this.objSer = baos.toByteArray();
++        try (final ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
++            objectMapper.writeValue(baos, ser);
++            this.objSer = baos.toByteArray();
++        }
+     }
+ 
+     public InputStream getContent() throws IOException, IllegalStateException {
