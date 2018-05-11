@@ -24,17 +24,14 @@ public class StreamingViewResult implements Serializable, Iterable<Row>, Closeab
 	private int totalRows = -1;
 	private int offset = -1;
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="SE_BAD_FIELD")
 	private final BufferedReader reader;
 
 	private final ObjectMapper objectMapper;
 	private boolean iteratorCalled;
     private final boolean ignoreNotFound;
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="SE_BAD_FIELD")
     private final HttpResponse httpResponse;
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"DM_DEFAULT_ENCODING", "NP_DEREFERENCE_OF_READLINE_VALUE"})
 	public StreamingViewResult(ObjectMapper objectMapper, HttpResponse httpResponse, boolean ignoreNotFound) {
 
 		this.objectMapper = objectMapper;

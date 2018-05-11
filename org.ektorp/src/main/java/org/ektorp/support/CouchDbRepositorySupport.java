@@ -120,7 +120,7 @@ public class CouchDbRepositorySupport<T> implements GenericRepository<T> {
 		return loadAllByAllDocIds();
 	}
 
-	private boolean designDocContainsAllView() {
+	protected boolean designDocContainsAllView() {
 		if (db.contains(stdDesignDocumentId)) {
 			DesignDocument dd = db.get(DesignDocument.class, stdDesignDocumentId);
 			return dd.containsView("all");
@@ -219,7 +219,7 @@ public class CouchDbRepositorySupport<T> implements GenericRepository<T> {
 	 * The viewName must be defined in this repository's design document.
 	 *
 	 * @param viewName
-	 * @param keyValue
+	 * @param key
 	 * @return
 	 */
 	protected List<T> queryView(String viewName, int key) {
@@ -322,7 +322,7 @@ public class CouchDbRepositorySupport<T> implements GenericRepository<T> {
 	/**
 	 * Wait a short while in order to prevent racing initializations from other repositories.
 	 */
-	private void backOff() {
+	protected void backOff() {
 		try {
 			Thread.sleep(new Random().nextInt(400));
 		} catch (InterruptedException ie) {
@@ -335,7 +335,6 @@ public class CouchDbRepositorySupport<T> implements GenericRepository<T> {
 		om.configure(SerializationFeature.INDENT_OUTPUT, true);
 
 		om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		
 		try {
 			String json = om.writeValueAsString(generated);
 			log.debug("DesignDocument source:\n" + json);

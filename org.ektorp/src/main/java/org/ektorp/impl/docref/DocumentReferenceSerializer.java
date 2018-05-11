@@ -99,7 +99,6 @@ public class DocumentReferenceSerializer extends JsonSerializer<Object> {
 		throw new DbAccessException(sb.toString());
 	}
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="BC_VACUOUS_INSTANCEOF")
 	private Set<?> findDocumentsToSave(Set<?> o) {
 		if (o == null) {
 			return Collections.emptySet();

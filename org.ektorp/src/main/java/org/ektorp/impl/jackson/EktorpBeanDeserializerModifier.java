@@ -47,6 +47,8 @@ public class EktorpBeanDeserializerModifier extends BeanDeserializerModifier {
 				}
 			}
 			return super.modifyDeserializer(config, beanDesc, deserializer);
+
+
 	}
 
 	private List<ConstructibleAnnotatedCollection> collectFields(final DeserializationConfig config, final BeanDescription desc) {
@@ -105,8 +107,7 @@ public class EktorpBeanDeserializerModifier extends BeanDeserializerModifier {
 			DeserializationConfig config, BeanDescription beanDesc,
 			String name, AnnotatedMethod setter, JavaType type) {
 		// need to ensure method is callable (for non-public)
-		if (config
-				.isEnabled(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)) {
+		if (config.isEnabled(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS)) {
 			Method member = setter.getAnnotated();
 			if (!Modifier.isPublic(member.getModifiers()) || !Modifier.isPublic(member.getDeclaringClass().getModifiers())) {
 				member.setAccessible(true);

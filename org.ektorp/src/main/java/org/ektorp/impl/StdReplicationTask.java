@@ -5,20 +5,47 @@ import org.ektorp.ReplicationTask;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StdReplicationTask extends StdActiveTask implements ReplicationTask {
-
-    private String replicationId;
+	private String replicationId;
     private String replicationDocumentId;
     private boolean isContinuous;
     private long writeFailures;
+	private long changesPending;
     private long totalReads;
     private long totalWrites;
     private long totalMissingRevisions;
     private long totalRevisionsChecked;
     private String sourceDatabase;
     private String targetDatabase;
-    private long sourceSequenceId;
-    private Long checkpointInterval;
-    private long checkpointedSourceSequenceId;
+    private String sourceSequenceId;
+    private String checkpointedSourceSequenceId;
+    private long checkpointInterval;
+
+    /*
+    {
+    	"node":"couchdb@127.0.0.1",
+		"pid":"<0.17238.0>",
+		"changes_pending":0,
+		"checkpoint_interval":30000,
+		"checkpointed_source_seq":"36522-g1AAAADweJzLYWBgYM5gTmEQTM4vTc5ISXIwNDLXMwBCwxygFFMiQ1JoaGhIVgZzEgODflkuUIzdzCTVKDnNEJsePCaBzAnNY2FYuWrVKohxBv1g4wwNDZON0yxJNA5oEtCgVUDqPxBADNRbCjbQwjLZ0NDACJvWLADImD3x",
+		"continuous":true,
+		"database":null,
+		"doc_id":null,
+		"doc_write_failures":2,
+		"docs_read":8537,
+		"docs_written":8535,
+		"missing_revisions_found":8537,
+		"replication_id":"6c1a34e8b789a5618934ef984770d16d+continuous",
+		"revisions_checked":8537,
+		"source":"http://127.0.0.1:5984/icure-patient/",
+		"source_seq":"36522-g1AAAADweJzLYWBgYM5gTmEQTM4vTc5ISXIwNDLXMwBCwxygFFMiQ1JoaGhIVgZzEgODflkuUIzdzCTVKDnNEJsePCaBzAnNY2FYuWrVKohxBv1g4wwNDZON0yxJNA5oEtCgVUDqPxBADNRbCjbQwjLZ0NDACJvWLADImD3x",
+		"started_on":1483528117,
+		"target":"https://ad-c7a2fd59-1663-4e3a-a7d6-4f67ebc49b4f:*****@couchdb.icure.cloud:443/icure-ad-c7a2fd59-1663-4e3a-a7d6-4f67ebc49b4f-patient/",
+		"through_seq":"36522-g1AAAADweJzLYWBgYM5gTmEQTM4vTc5ISXIwNDLXMwBCwxygFFMiQ1JoaGhIVgZzEgODflkuUIzdzCTVKDnNEJsePCaBzAnNY2FYuWrVKohxBv1g4wwNDZON0yxJNA5oEtCgVUDqPxBADNRbCjbQwjLZ0NDACJvWLADImD3x",
+		"type":"replication",
+		"updated_on":1483529048,
+		"user":"icure"
+	}
+	*/
 
     @Override
     public String getReplicationId() {
@@ -50,7 +77,17 @@ public class StdReplicationTask extends StdActiveTask implements ReplicationTask
         this.isContinuous = isContinuous;
     }
 
-    @Override
+	@Override
+	public long getChangesPending() {
+		return changesPending;
+	}
+
+	@JsonProperty(required = false, value = "changes_pending")
+	public void setChangesPending(long changesPending) {
+		this.changesPending = changesPending;
+	}
+
+	@Override
     public long getWriteFailures() {
         return writeFailures;
     }
@@ -121,32 +158,32 @@ public class StdReplicationTask extends StdActiveTask implements ReplicationTask
     }
 
     @Override
-    public long getSourceSequenceId() {
+    public String getSourceSequenceId() {
         return sourceSequenceId;
     }
 
     @JsonProperty(required = false, value = "source_seq")
-    public void setSourceSequenceId(long sourceSequenceId) {
+    public void setSourceSequenceId(String sourceSequenceId) {
         this.sourceSequenceId = sourceSequenceId;
     }
 
     @Override
-    public long getCheckpointedSourceSequenceId() {
+    public String getCheckpointedSourceSequenceId() {
         return checkpointedSourceSequenceId;
     }
 
     @JsonProperty(required = false, value = "checkpointed_source_seq")
-    public void setCheckpointedSourceSequenceId(long checkpointedSourceSequenceId) {
+    public void setCheckpointedSourceSequenceId(String checkpointedSourceSequenceId) {
         this.checkpointedSourceSequenceId = checkpointedSourceSequenceId;
     }
 
 	@Override
-	public Long getCheckpointInterval() {
+	public long getCheckpointInterval() {
 		return checkpointInterval;
 	}
 
 	@JsonProperty(required = false, value = "checkpoint_interval")
-	public void setCheckpointInterval(Long checkpointInterval) {
+	public void setCheckpointInterval(long checkpointInterval) {
 		this.checkpointInterval = checkpointInterval;
 	}
 }

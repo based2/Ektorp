@@ -18,12 +18,16 @@ public interface ReplicationTask extends ActiveTask {
      */
     String getReplicationDocumentId();
 
-    /**
+	String getNode();
+
+	/**
      * @return a boolean indicating whether or not the replication rule being processed is continuous
      */
     boolean isContinuous();
 
-    /**
+	long getChangesPending();
+
+	/**
      * @return the total number of document writes which have failed so far in this task
      */
     long getWriteFailures();
@@ -76,9 +80,5 @@ public interface ReplicationTask extends ActiveTask {
      */
     long getCheckpointedSourceSequenceId();
 
-	/**
-	 * Defines replication checkpoint interval in milliseconds. Replicator will requests from the Source database at the specified interval
-	 */
-	Long getCheckpointInterval();
-
+    long getCheckpointInterval();
 }

@@ -9,9 +9,9 @@ import org.ektorp.util.Base64;
 import org.ektorp.util.Exceptions;
 
 /**
- * 
+ *
  * @author henrik lundgren
- * 
+ *
  */
 public class PageRequest {
 
@@ -49,11 +49,11 @@ public class PageRequest {
 	public int getPageNo() {
 		return page;
 	}
-	
+
 	public static PageRequest firstPage(int pageSize) {
 		return new Builder().pageSize(pageSize).build();
 	}
-	
+
 	public PageRequest.Builder nextRequest(Object nextStartKey,
 			String nextStartDocId) {
 		try {
@@ -105,6 +105,22 @@ public class PageRequest {
 		}
 	}
 
+	private static KeyIdPair parseNextKey(JsonNode n) {
+		return parseKey(NEXT_KEY_FIELD_NAME, n);
+	}
+
+	private static KeyIdPair parseKey(String fieldName, JsonNode n) {
+		KeyIdPair key;
+		JsonNode nextKey = n.get(fieldName);
+		if (nextKey != null) {
+			String docId = nextKey.fieldNames().next();
+			key = new KeyIdPair(nextKey.get(docId), docId);
+		} else {
+			key = null;
+		}
+		return key;
+	} 
+	
 	public String asLink() {
 		try {
 			return Base64.encodeBytes(MAPPER.writeValueAsBytes(asJson()),
@@ -197,42 +213,43 @@ public class PageRequest {
     }
 
 	public static class Builder {
-		
+
 		private int pageSize;
 		private KeyIdPair nextKey;
 		private boolean back;
 		private int page;
-		
+
 		public Builder() {
+
 		}
-		
+
 		public Builder(PageRequest prototype) {
 			this.back = prototype.back;
 			this.nextKey = prototype.nextKey;
 			this.page = prototype.page;
-			this.pageSize = prototype.pageSize; 
+			this.pageSize = prototype.pageSize;
 		}
-		
+
 		public Builder pageSize(int i) {
 			this.pageSize = i;
 			return this;
 		}
-		
+
 		public Builder page(int i) {
 			this.page = i;
 			return this;
 		}
-		
+
 		public Builder back(boolean b) {
 			this.back = b;
 			return this;
 		}
-		
+
 		public Builder nextKey(KeyIdPair k) {
 			this.nextKey = k;
 			return this;
 		}
-		
+
 		public PageRequest build() {
 			return new PageRequest(this);
 		}
@@ -240,11 +257,11 @@ public class PageRequest {
 		public int getPageNo() {
 			return page;
 		}
-		
+
 		public int getNextPage() {
 			return page + 1;
 		}
-		
+
 		public int getPrevPage() {
 			return page - 1;
 		}
@@ -302,7 +319,7 @@ public class PageRequest {
 				return false;
 			return true;
 		}
-		
+
 		@Override
 		public String toString() {
 			return this.getClass().getName() + "(key=" + key + ",docId=" + docId + ")";

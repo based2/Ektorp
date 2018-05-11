@@ -21,12 +21,10 @@ public class StreamingChangesResult implements Serializable, Iterable<DocumentCh
 	private static final long serialVersionUID = 4750290767936801714L;
 	private boolean iteratorCalled;
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="SE_BAD_FIELD")
 	private JsonParser jp;
 
 	private long lastSeq = -1l;
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="SE_BAD_FIELD")
     private final HttpResponse response;
 
 	public StreamingChangesResult(ObjectMapper objectMapper, HttpResponse response) {

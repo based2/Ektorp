@@ -822,7 +822,7 @@ CouchDbConnector db = new StdCouchDbConnector("myDBName", dbInstance, myMapper);
         <para>The mix-in class is just an abstract class that provides the
         annotations for your target class:</para>
 
-        <programlisting language="java">@JsonSerialize(include = Inclusion.NON_NULL)
+        <programlisting language="java">@JsonInclude(JsonInclude.Include.NON_NULL)
 abstract class MixIn
 
   @JsonProperty("_id") abstract int getFoo(); // rename property

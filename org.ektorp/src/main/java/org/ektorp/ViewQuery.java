@@ -81,17 +81,17 @@ public class ViewQuery {
 				other.setKey(key);
 			}
 		}
-		
+
 	}
-	
+
 
 	private static ObjectMapperFactory DEFAULT_OBJECT_MAPPER_FACTORY = new CachingObjectMapperFactory(new StdObjectMapperFactory());
-	
+
 	public static void setDefaultObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
 		DEFAULT_OBJECT_MAPPER_FACTORY = objectMapperFactory;
 	}
-	
-	
+
+
 	private final static String ALL_DOCS_VIEW_NAME = "_all_docs";
 	private final static int NOT_SET = -1;
 
@@ -400,7 +400,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery startKey(double d) {
 		reset();
-		startKey.setKey(d);
+		startKey = d;
 		return this;
 	}
 	/**
@@ -409,7 +409,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery startKey(boolean b) {
 		reset();
-		startKey.setKey(b);
+		startKey = b;
 		return this;
 	}
 
@@ -419,7 +419,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery startKey(Object o) {
 		reset();
-		startKey.setKey(o);
+		startKey = o;
 		return this;
 	}
 
@@ -761,7 +761,7 @@ public class ViewQuery {
 		copy.viewName = viewName;
 		return copy;
 	}
-	
+
 	private void appendQueryParams(URI query) {
 		for (Map.Entry<String, String> param : queryParams.entrySet()) {
 			query.param(param.getKey(), param.getValue());
@@ -797,8 +797,6 @@ public class ViewQuery {
 	private boolean isNotEmpty(Object s) {
 		return s != null;
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -963,7 +961,7 @@ public class ViewQuery {
         public List<?> getValues() {
             return Collections.unmodifiableList(keys);
 		}
-		
+
         @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE")
 		public Keys clone() {
 			return new Keys(keys);

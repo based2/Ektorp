@@ -20,6 +20,10 @@ public class ComplexKey {
 	private static final Object EMPTY_OBJECT = new Object();
 	private static final Object[] EMPTY_ARRAY = new Object[0];
 
+	public List<Object> getComponents() {
+		return components;
+	}
+
 	public static ComplexKey of(Object... components) {
 		return new ComplexKey(components);
 	}
@@ -55,5 +59,18 @@ public class ComplexKey {
 			}
 		}
 		return key;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ComplexKey that = (ComplexKey) o;
+		return Objects.equals(components, that.components);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(components);
 	}
 }

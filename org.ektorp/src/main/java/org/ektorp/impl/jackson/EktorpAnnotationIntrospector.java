@@ -26,7 +26,6 @@ public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
 	private final Map<Class<?>, Set<String>> ignorableMethods = new HashMap<>();
 	private final Set<Class<?>> annotatedClasses = new HashSet<>();
 
-
 	@Override
 	public boolean hasIgnoreMarker(AnnotatedMember member) {
 		return super.hasIgnoreMarker(member);
@@ -69,7 +68,7 @@ public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
     }
 
 	private void initIgnorableMethods(final Class<?> clazz) {
-		final Set<String> names = new HashSet<String>();
+		final Set<String> names = new HashSet<>();
 		ReflectionUtils.eachField(clazz, new Predicate<Field>() {
 			@Override
 			public boolean apply(Field input) {
