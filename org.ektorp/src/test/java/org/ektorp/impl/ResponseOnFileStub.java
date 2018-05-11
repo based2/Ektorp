@@ -8,19 +8,19 @@ import org.junit.*;
 
 public class ResponseOnFileStub implements HttpResponse {
 
-	int code;
-	InputStream in;
-	boolean connectionReleased;
-	String contentType = "application/json";
-	int contentLength;
-	String fileName;
+	private int code;
+	private InputStream in;
+	private boolean connectionReleased;
+	private String contentType = "application/json";
+	private int contentLength;
+	private String fileName;
 
-	public static ResponseOnFileStub newInstance(int code, String fileName) {
-		ResponseOnFileStub r = new ResponseOnFileStub();
+	public static ResponseOnFileStub newInstance(final int code, final String fileName) {
+		final ResponseOnFileStub r = new ResponseOnFileStub();
 		r.code = code;
 		r.in = r.getClass().getResourceAsStream(fileName);
 		try {
-			int available = r.in.available();
+			final int available = r.in.available();
 			Assert.assertEquals(true, available > 0);
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage(), e);
@@ -31,7 +31,7 @@ public class ResponseOnFileStub implements HttpResponse {
 
 	public static ResponseOnFileStub newInstance(int code, String fileName,
 			String contentType, int contentLength) {
-		ResponseOnFileStub r = new ResponseOnFileStub();
+		final ResponseOnFileStub r = new ResponseOnFileStub();
 		r.code = code;
 		r.in = r.getClass().getResourceAsStream(fileName);
 		r.contentLength = contentLength;
@@ -62,7 +62,7 @@ public class ResponseOnFileStub implements HttpResponse {
 	}
 
 	public String getETag() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub - NO IMPL.
 		return null;
 	}
 

@@ -36,14 +36,9 @@ public class AttachmentsInOrderParserTest
     @Before
     public void setUp() throws IOException
     {
-        JsonFactory jsonFactory = new JsonFactory();
-
-        InputStream attachmentsInputStream = null;
-        try {
-            attachmentsInputStream = getClass().getResourceAsStream("attachments.json");
+        final JsonFactory jsonFactory = new JsonFactory();
+        try (InputStream attachmentsInputStream = getClass().getResourceAsStream("attachments.json")) {
             attachmentsJsonParser = jsonFactory.createParser(attachmentsInputStream);
-        } finally {
-            IOUtils.closeQuietly(attachmentsInputStream);
         }
 
         knownOrderList = Arrays.asList(KNOWN_ORDER);
@@ -52,10 +47,9 @@ public class AttachmentsInOrderParserTest
     @Test
     public void parseAttachmentNames_should_return_the_attachment_names_in_order() throws IOException
     {
-        List<String> attachmentNames = AttachmentsInOrderParser.parseAttachmentNames(attachmentsJsonParser);
+       final  List<String> attachmentNames = AttachmentsInOrderParser.parseAttachmentNames(attachmentsJsonParser);
 
         assertThat(attachmentNames, notNullValue());
-
         assertThat(attachmentNames, is(knownOrderList));
     }
 }

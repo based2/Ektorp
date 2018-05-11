@@ -1,6 +1,7 @@
 package org.ektorp.http;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.*;
 import org.ektorp.*;
@@ -28,7 +29,7 @@ public class StdResponseHandler<T> implements ResponseCallback<T> {
 		try {
             InputStream content = hr.getContent();
             if (content != null) {
-                responseBody = responseBodyAsNode(IOUtils.toString(content));
+                responseBody = responseBodyAsNode(IOUtils.toString(content, StandardCharsets.UTF_8));
             } else {
                 responseBody = NullNode.getInstance();
             }

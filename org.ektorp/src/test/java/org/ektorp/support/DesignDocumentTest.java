@@ -3,6 +3,7 @@ package org.ektorp.support;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.*;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -141,20 +142,15 @@ public class DesignDocumentTest {
 		assertSerialization(om);
 	}
 
-	private void assertSerialization(ObjectMapper om) throws IOException,
-			JsonGenerationException, JsonMappingException {
-		String json = om.writeValueAsString(dd);
-		String expected = IOUtils.toString(getClass().getResourceAsStream("design_doc.json"));
+	private void assertSerialization(ObjectMapper om) throws IOException{
+		final String json = om.writeValueAsString(dd);
+		final String expected = IOUtils.toString(getClass().getResourceAsStream("design_doc.json"), StandardCharsets.UTF_8);
 		assertTrue(JSONComparator.areEqual(json, expected));
 	}
 
     private DesignDocument loadDesignDocumentFromResource(ObjectMapper om) throws IOException {
-        InputStream resourceAsStream = null;
-        try {
-            resourceAsStream = getClass().getResourceAsStream("design_doc.json");
+        try ( final InputStream resourceAsStream = getClass().getResourceAsStream("design_doc.json")) {
             return om.readValue(resourceAsStream, DesignDocument.class);
-        } finally {
-            IOUtils.closeQuietly(resourceAsStream);
         }
     }
 

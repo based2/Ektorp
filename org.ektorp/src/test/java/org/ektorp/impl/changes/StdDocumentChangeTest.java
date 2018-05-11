@@ -2,25 +2,29 @@ package org.ektorp.impl.changes;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import junit.framework.Assert;
-import org.apache.commons.io.IOUtils;
+import org.assertj.core.api.Assertions;
 import org.ektorp.StreamingChangesResult;
 import org.ektorp.changes.DocumentChange;
 import org.ektorp.http.HttpResponse;
 import org.ektorp.impl.ResponseOnFileStub;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
-import static org.junit.matchers.JUnitMatchers.hasItems;
 
 public class StdDocumentChangeTest {
 
-	ObjectMapper mapper = new ObjectMapper();
+    private final static Logger LOG = LoggerFactory.getLogger(StdDocumentChangeTest.class);
+
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void test_normal_message() throws IOException {
@@ -71,10 +75,9 @@ public class StdDocumentChangeTest {
         StdDocumentChange objectUnderTest = new StdDocumentChange(load("change_message_w_multiple_revs.json"));
         assertThat(objectUnderTest.getId(), is("doc_id"));
         assertThat(objectUnderTest.getRevision(), is("rev-first"));
-        assertThat(objectUnderTest.getRevisions(), notNullValue());
-        assertThat(objectUnderTest.getRevisions().size(), is(3));
-        // hasItems(Matcher... elementMatchers
-        assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
+
+        List<String> revisions = objectUnderTest.getRevisions();
+        Assertions.assertThat(revisions).isNotEmpty().containsSequence("rev-first", "rev-second", "rev-third");
 
         assertNull(objectUnderTest.getDoc());
         assertTrue(objectUnderTest.getDocAsNode().isMissingNode());

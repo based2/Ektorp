@@ -8,7 +8,8 @@ import org.ektorp.util.Assert;
 
 public class EktorpJacksonModule extends Module {
 
-	private final static Version VERSION = new Version(1,2,0, null);
+	private final static Version VERSION =
+			new Version(1,2,0, null, null, null);
 
 	private final CouchDbConnector db;
 	private final ObjectMapper objectMapper;

@@ -28,8 +28,7 @@ public class BulkDocumentWriter {
 	 * @param out
 	 */
 	public void write(Collection<?> objects, boolean allOrNothing, OutputStream out) {
-		try {
-			JsonGenerator jg = objectMapper.getFactory().createGenerator(out, JsonEncoding.UTF8);
+		try (final JsonGenerator jg = objectMapper.getFactory().createGenerator(out, JsonEncoding.UTF8)) {
 			jg.writeStartObject();
 			if (allOrNothing) {
 				jg.writeBooleanField("all_or_nothing", true);
@@ -41,20 +40,16 @@ public class BulkDocumentWriter {
 			jg.writeEndArray();
 			jg.writeEndObject();
 			jg.flush();
-			jg.close();
 		} catch (Exception e) {
 			throw Exceptions.propagate(e);
-		} finally {
-			IOUtils.closeQuietly(out);
 		}
 	}
 
 	public InputStream createInputStreamWrapper(boolean allOrNothing, InputStream in) {
-	    List<InputStream> seq = new ArrayList<InputStream>(3);
+	    final List<InputStream> seq = new ArrayList<>(3);
 
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            JsonGenerator jg = objectMapper.getFactory().createGenerator(byteArrayOutputStream, JsonEncoding.UTF8);
+        try (final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            final JsonGenerator jg = objectMapper.getFactory().createGenerator(byteArrayOutputStream, JsonEncoding.UTF8)) {
             jg.writeStartObject();
             if (allOrNothing) {
                 jg.writeBooleanField("all_or_nothing", true);

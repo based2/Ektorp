@@ -46,6 +46,7 @@ public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
 		return names.contains(m.getName());
 	}
 
+	// https://stackoverflow.com/questions/14056716/disable-jackson-mapper-for-a-particular-annotation
 	@Override
 	public String[] findPropertiesToIgnore(Annotated ac) {
 		if(ac instanceof AnnotatedClass){

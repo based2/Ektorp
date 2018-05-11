@@ -118,7 +118,7 @@ public class PageRequest {
 		ObjectNode n = MAPPER.createObjectNode();
 		if (nextKey != null) {
 			if (nextKey.key != null) {
-				n.put(NEXT_KEY_FIELD_NAME, nextKey.key);
+				n.set(NEXT_KEY_FIELD_NAME, nextKey.key); // ObjectNode.put -> set / replace
 			}
 			if (nextKey.docId != null) {
 				n.put(NEXT_DOCID_FIELD_NAME, nextKey.docId);

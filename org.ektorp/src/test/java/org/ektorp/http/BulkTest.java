@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /* throws:
@@ -267,7 +268,7 @@ public class BulkTest {
         LOG.info("Running time: " + rt + " ms, bulkOpsTotalDuration = " + bulkOpsTotalDuration + " ms");
     }
 
-    public void doUpdateInBulkWithOneSmallInputStream(CouchDbConnector db) throws Exception {
+    public void doUpdateInBulkWithOneSmallInputStream(final CouchDbConnector db) throws Exception {
         final int iterationsCount = 100;
 
         // create or update the document, with initial "i" value of 0
@@ -292,23 +293,26 @@ public class BulkTest {
         for (int i = 1; i <= iterationsCount; i++) {
             LOG.info("Round " + i + " of " + iterationsCount);
 
-            ObjectNode doc = db.get(ObjectNode.class, "myid");
+            final ObjectNode doc = db.get(ObjectNode.class, "myid");
             int iFieldValue = doc.get("i").asInt();
             if (iFieldValue != i - 1) {
                 throw new IllegalStateException("Bean state is not as expected : " + doc);
             }
             doc.put("i", i);
 
-            InputStream bulkDocumentAsInputStream = new ReaderInputStream(new StringReader("[" + mapper.writeValueAsString(doc) + "]"));
+            try (final InputStream bulkDocumentAsInputStream =
+                         new ReaderInputStream(new StringReader("[" + mapper.writeValueAsString(doc) + "]"),
+                                 StandardCharsets.UTF_8)) {
 
-            long bulkOpStart = System.currentTimeMillis();
-            List<DocumentOperationResult> bulkResult = db.executeBulk(bulkDocumentAsInputStream);
-            bulkOpsTotalDuration += (System.currentTimeMillis() - bulkOpStart);
-            if (!bulkResult.isEmpty()) {
-                throw new Exception("Got DocumentOperationResult " + bulkResult);
+                final long bulkOpStart = System.currentTimeMillis();
+                final List<DocumentOperationResult> bulkResult = db.executeBulk(bulkDocumentAsInputStream);
+                bulkOpsTotalDuration += (System.currentTimeMillis() - bulkOpStart);
+                if (!bulkResult.isEmpty()) {
+                    throw new Exception("Got DocumentOperationResult " + bulkResult);
+                }
             }
         }
-        long rt = System.currentTimeMillis() - start;
+        final long rt = System.currentTimeMillis() - start;
         LOG.info("Running time: " + rt + " ms, bulkOpsTotalDuration = " + bulkOpsTotalDuration + " ms");
     }
 

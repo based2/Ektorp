@@ -17,7 +17,7 @@ public class PreemptiveAuthRequestInterceptor implements HttpRequestInterceptor 
 	public void process(
             final HttpRequest request, 
             final HttpContext context) throws HttpException, IOException {
-        
+        // TODO HttpContext -> HttpClientContext
         AuthState authState = (AuthState) context.getAttribute(
                 ClientContext.TARGET_AUTH_STATE);
         CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(

@@ -74,12 +74,8 @@ public class ReplicationStatusTest {
     }
 
     private ReplicationStatus loadReplicationStatusFromResource(ObjectMapper mapper, String name) throws java.io.IOException {
-        InputStream resourceAsStream = null;
-        try {
-            resourceAsStream = getClass().getResourceAsStream(name);
+        try (InputStream resourceAsStream = getClass().getResourceAsStream(name)) {
             return mapper.readValue(resourceAsStream, ReplicationStatus.class);
-        } finally {
-            IOUtils.closeQuietly(resourceAsStream);
         }
     }
 
