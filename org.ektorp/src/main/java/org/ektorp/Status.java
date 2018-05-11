@@ -29,17 +29,17 @@ public class Status implements Serializable {
 
 	private Map<String, Object> unknown() {
 		if (unknownFields == null) {
-			unknownFields = new HashMap<String, Object>();
+			unknownFields = new HashMap<>();
 		}
 		return unknownFields;
 	}
 
 	@JsonAnySetter
-	public void setUnknown(String key, Object value) {
+	public void setUnknown(final String key, final Object value) {
 		unknown().put(key, value);
 	}
 
-	public Object getField(String key) {
+	public Object getField(final String key) {
 		return unknown().get(key);
 	}
 }

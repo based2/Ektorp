@@ -9,9 +9,6 @@ import com.fasterxml.jackson.databind.*;
  */
 public class DocumentNotFoundException extends DbAccessException {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -4130993962797968754L;
 
 	private final String path;
@@ -33,7 +30,7 @@ public class DocumentNotFoundException extends DbAccessException {
 		if (body == null) {
 			return false;
 		}
-		JsonNode reason = body.findPath("reason");
+		final JsonNode reason = body.findPath("reason");
 		return !reason.isMissingNode() ? reason.textValue().equals(expect) : false;
 	}
 

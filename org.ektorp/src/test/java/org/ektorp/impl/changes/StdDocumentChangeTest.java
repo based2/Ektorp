@@ -72,8 +72,10 @@ public class StdDocumentChangeTest {
         assertThat(objectUnderTest.getId(), is("doc_id"));
         assertThat(objectUnderTest.getRevision(), is("rev-first"));
         assertThat(objectUnderTest.getRevisions(), notNullValue());
-        assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
         assertThat(objectUnderTest.getRevisions().size(), is(3));
+        // hasItems(Matcher... elementMatchers
+        assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
+
         assertNull(objectUnderTest.getDoc());
         assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
         assertFalse(objectUnderTest.isDeleted());
@@ -87,19 +89,15 @@ public class StdDocumentChangeTest {
 	    StreamingChangesResult changes = new StreamingChangesResult(new ObjectMapper(), httpResponse);
 	    int i = 0;
         for (DocumentChange documentChange : changes) {
-            Assert.assertEquals(++i, documentChange.getSequence());
+            assertEquals(++i, documentChange.getSequence());
         }
-        Assert.assertEquals(5, changes.getLastSeq());
+        assertEquals(5, changes.getLastSeq());
         changes.close();
     }
 
 	private JsonNode load(String id) throws IOException {
-        InputStream resourceAsStream = null;
-        try {
-            resourceAsStream = getClass().getResourceAsStream(id);
+        try (final InputStream resourceAsStream = getClass().getResourceAsStream(id)){
             return mapper.readTree(resourceAsStream);
-        } finally {
-            IOUtils.closeQuietly(resourceAsStream);
         }
 	}
 

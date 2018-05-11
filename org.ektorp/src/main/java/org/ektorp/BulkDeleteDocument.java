@@ -23,11 +23,11 @@ public class BulkDeleteDocument implements Serializable {
 	 * @param o
 	 * @return
 	 */
-	public static BulkDeleteDocument of(Object o) {
+	public static BulkDeleteDocument of(final Object o) {
 		return new BulkDeleteDocument(Documents.getId(o), Documents.getRevision(o));
 	}
 
-	public BulkDeleteDocument(String id, String rev) {
+	public BulkDeleteDocument(final String id, final String rev) {
 		this.id = id;
 		this.revision = rev;
 	}
@@ -41,10 +41,10 @@ public class BulkDeleteDocument implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (o == this) return true;
 		if (o instanceof BulkDeleteDocument) {
-			BulkDeleteDocument bd = (BulkDeleteDocument) o;
+			final BulkDeleteDocument bd = (BulkDeleteDocument) o;
 			return bd.id.equals(id);
 		}
 		return false;
@@ -67,8 +67,7 @@ public class BulkDeleteDocument implements Serializable {
 
 		@Override
 		public void serialize(BulkDeleteDocument value, JsonGenerator jgen,
-				SerializerProvider provider) throws IOException,
-				JsonProcessingException {
+				SerializerProvider provider) throws IOException {
 			jgen.writeStartObject();
 			jgen.writeStringField("_id", value.id);
 			jgen.writeStringField("_rev", value.revision);

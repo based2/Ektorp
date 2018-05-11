@@ -21,7 +21,7 @@ public class ReflectionUtils {
 	}
 	
 	public static Collection<Field> eachField(Class<?> clazz, Predicate<Field> p) {
-		List<Field> result = new ArrayList<Field>();
+		List<Field> result = new ArrayList<>();
 		for (Field f : clazz.getDeclaredFields()) {
 			if (p.apply(f)) {
 				result.add(f);
@@ -35,7 +35,7 @@ public class ReflectionUtils {
 	}
 	
 	public static Collection<Method> eachMethod(Class<?> clazz, Predicate<Method> p) {
-		List<Method> result = new ArrayList<Method>();
+		List<Method> result = new ArrayList<>();
 		for (Method f : clazz.getDeclaredMethods()) {
 			if (p.apply(f)) {
 				result.add(f);

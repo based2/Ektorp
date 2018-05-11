@@ -13,31 +13,31 @@ public class URI {
 	private StringBuilder params;
 	private String uri;
 	
-	private URI(String path) {
+	private URI(final String path) {
 		this.path = new StringBuilder(path);
 		prototype = false;
 	}
 	
-	private URI(String path, boolean prototype) {
+	private URI(final String path, final boolean prototype) {
 		this.path = new StringBuilder(path);
 		this.prototype = prototype;
 	}
 	
-	private URI(StringBuilder path, StringBuilder params) {
+	private URI(final StringBuilder path, final StringBuilder params) {
 		this.path = path;
 		this.params = params;
 		prototype = false;
 	}
 	
-	private URI(StringBuilder path) {
+	private URI(final StringBuilder path) {
 		this(path, null);
 	}
 	
-	public static URI of(String path) {
+	public static URI of(final String path) {
 		return new URI(path);
 	}
 	
-	public static URI prototype(String path) {
+	public static URI prototype(final String path) {
 		return new URI(path, true);
 	}
 
@@ -64,7 +64,7 @@ public class URI {
 		return this;
 	}
 	
-	public URI param(String name, String value) {
+	public URI param( String name, String value) {
 		if (prototype) {
 			return copy().param(name, value);
 		}
@@ -81,12 +81,12 @@ public class URI {
 		uri = null;
 		return this;
 	}
-	
-	public URI param(String name, int value) {
+
+	public URI param(final String name, final int value) {
 		return param(name, Integer.toString(value));
 	}
 	
-	public URI param(String name, long value) {
+	public URI param(final String name, final long value) {
 		return param(name, Long.toString(value));
 	}
 	
@@ -107,7 +107,7 @@ public class URI {
 
 	public void params(Map<String, String> params) { 
 		for (Map.Entry<String, String> e : params.entrySet()) {
-			param(e.getKey(), e.getValue());
+			this.param(e.getKey(), e.getValue());
 		}
 	}
 }

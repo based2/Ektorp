@@ -46,7 +46,7 @@ public class ComplexKey {
 
 	@JsonValue
 	public JsonNode toJson() {
-		ArrayNode key = mapper.createArrayNode();
+		final ArrayNode key = mapper.createArrayNode();
 		for (Object component : components) {
 			if (component == EMPTY_OBJECT) {
 				key.addObject();

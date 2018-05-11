@@ -42,7 +42,7 @@ public class OpenCouchDbDocument extends CouchDbDocument {
 	 */
 	private Map<String, Object> anonymous() {
 		if (anonymous == null) {
-			anonymous = new HashMap<String, Object>();
+			anonymous = new HashMap<>();
 		}
 		return anonymous;
 	}

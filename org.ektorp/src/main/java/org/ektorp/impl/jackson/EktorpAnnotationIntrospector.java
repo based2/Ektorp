@@ -23,8 +23,8 @@ import com.fasterxml.jackson.databind.introspect.NopAnnotationIntrospector;
 
 public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
 
-	private final Map<Class<?>, Set<String>> ignorableMethods = new HashMap<Class<?>, Set<String>>();
-	private final Set<Class<?>> annotatedClasses = new HashSet<Class<?>>();
+	private final Map<Class<?>, Set<String>> ignorableMethods = new HashMap<>();
+	private final Set<Class<?>> annotatedClasses = new HashSet<>();
 
 
 	@Override
@@ -59,7 +59,7 @@ public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
     	for (AnnotatedField f : ac.fields()) {
     		if (isIgnorableField(f)) {
     			if (ignoreFields == null) {
-    				ignoreFields = new ArrayList<String>();
+    				ignoreFields = new ArrayList<>();
     			}
     			ignoreFields.add(f.getName());
     		}

@@ -44,8 +44,7 @@ public class ViewBasedCollection implements InvocationHandler {
 		try {
 			Class<?> raw = collectionType.getRawClass();
 			if (Set.class.isAssignableFrom(raw)) {
-				ViewQuery query = createBackReferenceQuery(thisId, ann,
-						fieldName);
+				ViewQuery query = createBackReferenceQuery(thisId, ann, fieldName);
 				Class<?> klass = collectionType.getContentType().getRawClass();
 				return loadSetResult(query, klass);
 			} else {
@@ -54,8 +53,7 @@ public class ViewBasedCollection implements InvocationHandler {
 
 		} catch (DbAccessException e) {
 			if (e.getCause() instanceof JsonProcessingException) {
-				JsonProcessingException jpe = (JsonProcessingException) e
-						.getCause();
+				JsonProcessingException jpe = (JsonProcessingException) e.getCause();
 				throw JsonMappingException.wrapWithPath(jpe,
 						new JsonMappingException.Reference(collectionType
 								.getContentType().getRawClass()), fieldName);
@@ -133,9 +131,9 @@ public class ViewBasedCollection implements InvocationHandler {
 
 	private Collection<? extends Object> difference(Collection<?> c1,
 			Collection<?> c2) {
-		List<Object> a1 = new ArrayList<Object>(c1);
-		List<Object> b1 = new ArrayList<Object>(c1);
-		List<Object> a2 = new ArrayList<Object>(c2);
+		final List<Object> a1 = new ArrayList<>(c1);
+		final List<Object> b1 = new ArrayList<>(c1);
+		final List<Object> a2 = new ArrayList<>(c2);
 		a1.retainAll(a2);
 		b1.removeAll(a1);
 		return b1;

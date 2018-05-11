@@ -125,14 +125,9 @@ public class ViewResult implements Iterable<ViewResult.Row>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder("{\n\"total_rows\":");
-		builder.append(totalRows);
-		builder.append(",\n\"offset\":");
-		builder.append(offset);
-		builder.append(",\n\"rows\":");
-		builder.append(rows.toString());
-		builder.append("\n}");
-		return builder.toString();
+		return "{\n\"total_rows\":" + totalRows
+				+ ",\n\"offset\":" + offset
+				+ ",\n\"rows\":" + rows.toString() + "\n}";
 	}
 	
 	public static class Row {
@@ -193,12 +188,12 @@ public class ViewResult implements Iterable<ViewResult.Row>, Serializable {
 			return nodeAsString(rowNode.get(ERROR_FIELD_NAME));
 		}
 
-		private String nodeAsString(JsonNode node) {
+		private String nodeAsString(final JsonNode node) {
 			if (isNull(node)) return null;
 			return node.isContainerNode() ? node.toString() : node.asText();
 		}
 
-		private boolean isNull(JsonNode node) {
+		private boolean isNull(final JsonNode node) {
 			return node == null || node.isNull() || node.isMissingNode();
 		}
 

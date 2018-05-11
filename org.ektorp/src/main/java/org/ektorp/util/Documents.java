@@ -60,7 +60,7 @@ public final class Documents {
 	}
 
 	/**
-	 * Will set the id property on the document IF a mutator exists. Otherwise
+	 * Set the id property on the document IF a mutator exists. Otherwise
 	 * nothing happens.
 	 *
 	 * @param document

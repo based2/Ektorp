@@ -145,6 +145,8 @@ package org.ektorp.util;
  * @author Robert Harder
  * @author rob@iharder.net
  * @version 2.3.7
+ *
+ * TODO use https://docs.oracle.com/javase/8/docs/api/java/util/Base64.html for Java8
  */
 public class Base64
 {

@@ -118,7 +118,7 @@ public class ChangesCommand {
 		 */
 		public Builder param(String name, String value) {
 			if (extraQueryParams == null) {
-				extraQueryParams = new LinkedHashMap<String, String>();
+				extraQueryParams = new LinkedHashMap<>();
 			}
 			extraQueryParams.put(name, value);
 			return this;

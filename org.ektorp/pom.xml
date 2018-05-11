@@ -6,7 +6,8 @@
 	<name>Ektorp</name>
 	<version>1.5.1-SNAPSHOT</version>
 	<description>a Java CouchDB persistence library</description>
-	<parent>
+
+    <parent>
 		<artifactId>org.ektorp.parent</artifactId>
 		<groupId>org.ektorp</groupId>
 		<version>1.5.1-SNAPSHOT</version>

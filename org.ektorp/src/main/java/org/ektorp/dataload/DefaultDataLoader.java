@@ -46,14 +46,13 @@ public class DefaultDataLoader {
 		}
 	}
 
-	private void doLoad(Reader in) throws IOException, JsonParseException,
-			JsonMappingException {
-		Set<String> allIds = new HashSet<String>(db.getAllDocIds());
-		JsonNode jn = objectMapper.readValue(in, JsonNode.class);
+	private void doLoad(Reader in) throws IOException {
+		final Set<String> allIds = new HashSet<>(db.getAllDocIds());
+		final JsonNode jn = objectMapper.readValue(in, JsonNode.class);
 
 		for (Iterator<JsonNode> i = jn.elements(); i.hasNext();) {
-			JsonNode n = i.next();
-			String id = n.get("_id").textValue();
+			final JsonNode n = i.next();
+			final String id = n.get("_id").textValue();
 			if (!allIds.contains(id)) {
 				LOG.info("adding {} to database", id);
 				createDocument(n, id);

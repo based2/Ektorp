@@ -61,8 +61,6 @@ public final class ContinuousChangesFeed implements ChangesFeed, Runnable {
 		return c;
 	}
 
-
-
 	public DocumentChange next(long timeout, TimeUnit unit)
 			throws InterruptedException {
 		assertRunningState();

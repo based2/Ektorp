@@ -45,7 +45,7 @@ public class BackReferencedBeanDeserializer extends StdDeserializer<Object>
 
 	@Override
 	public Object deserialize(JsonParser jp, DeserializationContext ctxt)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 		Object deserializedObject = delegate.deserialize(jp, ctxt);
 		addbackReferencedFields(deserializedObject, ctxt);
 		return deserializedObject;
@@ -88,7 +88,7 @@ public class BackReferencedBeanDeserializer extends StdDeserializer<Object>
 
 	@Override
 	public Object deserialize(JsonParser jp, DeserializationContext ctxt,
-			Object intoValue) throws IOException, JsonProcessingException {
+			Object intoValue) throws IOException {
 		Object deserializedObject = super.deserialize(jp, ctxt, intoValue);
 		addbackReferencedFields(deserializedObject, ctxt);
 		return deserializedObject;

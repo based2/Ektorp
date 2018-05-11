@@ -47,14 +47,12 @@ public class EktorpBeanDeserializerModifier extends BeanDeserializerModifier {
 				}
 			}
 			return super.modifyDeserializer(config, beanDesc, deserializer);
-
-
 	}
 
 	private List<ConstructibleAnnotatedCollection> collectFields(final DeserializationConfig config, final BeanDescription desc) {
-		final List<ConstructibleAnnotatedCollection> fields = new ArrayList<ConstructibleAnnotatedCollection>();
+		final List<ConstructibleAnnotatedCollection> fields = new ArrayList<>();
 
-		final Map<String, AnnotatedMethod> setters = new LinkedHashMap<String, AnnotatedMethod>();
+		final Map<String, AnnotatedMethod> setters = new LinkedHashMap<>();
 		List<BeanPropertyDefinition> properties = desc.findProperties();
 		for (BeanPropertyDefinition beanPropertyDefinition : properties) {
 			setters.put(beanPropertyDefinition.getInternalName(), beanPropertyDefinition.getSetter());
@@ -80,7 +78,6 @@ public class EktorpBeanDeserializerModifier extends BeanDeserializerModifier {
 	private ConstructibleAnnotatedCollection collectBackrefField(DeserializationConfig config,
 			BeanDescription beanDesc,
 			Map<String, AnnotatedMethod> setters, Field field) {
-
 
 		JavaType type = objectMapper.getTypeFactory().constructType(field.getGenericType());
 

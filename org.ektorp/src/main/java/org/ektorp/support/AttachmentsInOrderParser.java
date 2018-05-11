@@ -30,7 +30,7 @@ public class AttachmentsInOrderParser
      * @return the list of attachment names in the order provided in the document
      * @throws IOException
      */
-    public static List<String> parseAttachmentNames(JsonParser documentJsonParser) throws IOException
+    public static List<String> parseAttachmentNames(final JsonParser documentJsonParser) throws IOException
     {
         documentJsonParser.nextToken();
 

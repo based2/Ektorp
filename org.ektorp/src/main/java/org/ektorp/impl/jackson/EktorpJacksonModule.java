@@ -36,6 +36,4 @@ public class EktorpJacksonModule extends Module {
 		context.addBeanDeserializerModifier(new EktorpBeanDeserializerModifier(db, objectMapper));
 		context.addBeanSerializerModifier(new EktorpBeanSerializerModifier(db));
 	}
-
-
 }
