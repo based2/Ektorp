@@ -29,7 +29,7 @@ public class PageRequest {
 	private final int page;
 
 	public static ViewQuery applyPagingParameters(ViewQuery q, PageRequest pr) {
-		ViewQuery pagedQuery = q.clone();
+		final ViewQuery pagedQuery = q.clone();
 		if (pr.page > 0) {
 			if (pr.getStartKey() != null) {
 				pagedQuery.startKey(pr.getStartKey());
@@ -142,10 +142,8 @@ public class PageRequest {
 		return nextKey != null ? nextKey.docId : null;
 	}
 	/**
-	 * 
-	 * @param startKey
-	 * @param startDocId
-	 * @return
+	 *
+	 * @return page Request
 	 */
 	public PageRequest getPreviousPageRequest() {
 		return new Builder(this)
@@ -153,25 +151,19 @@ public class PageRequest {
 					.build();
 	}
 
-	
 	public boolean isBack() {
 		return back;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(this.getClass().getName()).append("(");
-		builder.append("pageSize=").append(pageSize);
-		builder.append(",page=").append(page);
-		builder.append(",back=").append(back);
-		builder.append(",nextKey=").append(nextKey);
-		builder.append(")");
-		return builder.toString();
+		return (this.getClass().getName())
+                + "(pageSize=" + pageSize
+                + ",page=" + page
+                + ",back=" + back
+                + ",nextKey=" + nextKey + ")";
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -204,8 +196,6 @@ public class PageRequest {
         return pageSize == other.pageSize;
     }
 
-
-
 	public static class Builder {
 		
 		private int pageSize;
@@ -214,7 +204,6 @@ public class PageRequest {
 		private int page;
 		
 		public Builder() {
-			
 		}
 		
 		public Builder(PageRequest prototype) {
@@ -262,7 +251,7 @@ public class PageRequest {
 
 		@Override
 		public String toString() {
-			StringBuilder builder = new StringBuilder();
+			final StringBuilder builder = new StringBuilder();
 			builder.append(this.getClass().getName()).append("(");
 			builder.append("pageSize=").append(pageSize);
 			builder.append(",page=").append(page);
@@ -278,7 +267,7 @@ public class PageRequest {
 		final JsonNode key;
 		final String docId;
 
-		KeyIdPair(JsonNode key, String docId) {
+		public KeyIdPair(final JsonNode key, final String docId) {
 			this.key = key;
 			this.docId = docId;
 		}
@@ -316,14 +305,9 @@ public class PageRequest {
 		
 		@Override
 		public String toString() {
-			StringBuilder builder = new StringBuilder();
-			builder.append(this.getClass().getName()).append("(");
-			builder.append("key=").append(key);
-			builder.append(",docId=").append(docId);
-			builder.append(")");
-			return builder.toString();
+			return this.getClass().getName() + "(key=" + key + ",docId=" + docId + ")";
 		}
-		
+
 	}
 
 }
