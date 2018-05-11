@@ -1,11 +1,9 @@
 package org.ektorp.support;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -168,16 +166,28 @@ public class SimpleViewGeneratorTest {
 	}
 
 	@Test
-	public void given_json_view_file_with_unix_line_endings_then_should_parse_successfully() throws IOException {
+	public void given_json_view_file_with_unix_line_endings_then_should_parse_successfully() {
 		SimpleViewGenerator generator = new SimpleViewGenerator();
-		DesignDocument.View view = generator.loadViewFromString(new ObjectMapper(), " {\"map\":\"function(doc) {\n  emit(doc._id, doc);\n  }\n\"}");
+		DesignDocument.View view = null;
+		try {
+			view = generator.loadViewFromString(new ObjectMapper(), " {\"map\":\"function(doc) {\n  emit(doc._id, doc);\n  }\n\"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
 		assertEquals("function(doc) {  emit(doc._id, doc);  }", view.getMap());
 	}
 
 	@Test
-	public void given_json_view_file_with_dos_line_endings_then_should_parse_successfully() throws IOException {
+	public void given_json_view_file_with_dos_line_endings_then_should_parse_successfully() {
 		SimpleViewGenerator generator = new SimpleViewGenerator();
-		DesignDocument.View view = generator.loadViewFromString(new ObjectMapper(), " {\"map\":\"function(doc) {\r\n  emit(doc._id, doc);\r\n  }\r\n\"}");
+		DesignDocument.View view = null;
+		try {
+			view = generator.loadViewFromString(new ObjectMapper(), " {\"map\":\"function(doc) {\r\n  emit(doc._id, doc);\r\n  }\r\n\"}");
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail();
+		}
 		assertEquals("function(doc) {  emit(doc._id, doc);  }", view.getMap());
 	}
 

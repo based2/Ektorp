@@ -73,12 +73,12 @@ public interface ReplicationTask extends ActiveTask {
     /**
      * @return the sequence number of the source database
      */
-    long getSourceSequenceId();
+    String getSourceSequenceId();
 
     /**
      * @return the latest sequence number of the source database which has been processed by this task
      */
-    long getCheckpointedSourceSequenceId();
+	String getCheckpointedSourceSequenceId();
 
-    long getCheckpointInterval();
+	long getCheckpointInterval();
 }

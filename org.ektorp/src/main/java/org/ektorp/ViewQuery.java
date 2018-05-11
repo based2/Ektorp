@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.ektorp.http.URI;
-import org.ektorp.impl.ObjectMapperFactory;
-import org.ektorp.impl.CachingObjectMapperFactory;
 import org.ektorp.impl.StdObjectMapperFactory;
 import org.ektorp.util.Assert;
 import org.ektorp.util.Exceptions;
@@ -26,87 +24,22 @@ import org.ektorp.util.Exceptions;
  */
 public class ViewQuery {
 
-	private class KeyOrRawKey {
-
-		private String rawKey;
-
-		private Object key;
-
-		private boolean isRaw;
-
-		public void setKey(Object value) {
-			this.key = value;
-			this.rawKey = null;
-			isRaw = false;
-		}
-
-		public void setRawKey(String value) {
-			this.key = null;
-			this.rawKey = value;
-			isRaw = true;
-		}
-
-		public boolean isNull() {
-			if (isRaw) {
-				return rawKey == null;
-			} else {
-				return key == null;
-			}
-		}
-
-		public String asEncoded() {
-			if (isRaw) {
-				return rawKey;
-			} else {
-				try {
-					return mapper.writeValueAsString(key);
-				} catch (Exception e) {
-					throw Exceptions.propagate(e);
-				}
-			}
-		}
-
-		public Object asDecoded() {
-			if (isRaw) {
-				return parseJson(rawKey);
-			} else {
-				return key;
-			}
-		}
-
-		public void copyTo(KeyOrRawKey other) {
-			if (isRaw) {
-				other.setRawKey(rawKey);
-			} else {
-				other.setKey(key);
-			}
-		}
-
-	}
-
-
-	private static ObjectMapperFactory DEFAULT_OBJECT_MAPPER_FACTORY = new CachingObjectMapperFactory(new StdObjectMapperFactory());
-
-	public static void setDefaultObjectMapperFactory(ObjectMapperFactory objectMapperFactory) {
-		DEFAULT_OBJECT_MAPPER_FACTORY = objectMapperFactory;
-	}
-
-
+	private final static ObjectMapper DEFAULT_MAPPER = new StdObjectMapperFactory().createObjectMapper();
 	private final static String ALL_DOCS_VIEW_NAME = "_all_docs";
 	private final static int NOT_SET = -1;
 
 	private final Map<String, String> queryParams = new TreeMap<String, String>();
 
-	private final ObjectMapper mapper;
+	private ObjectMapper mapper;
 
 	private String dbPath;
 	private String designDocId;
 	private String viewName;
-    private final KeyOrRawKey key = new KeyOrRawKey();
+    private Object key;
     private Keys keys;
-	private final KeyOrRawKey startKey = new KeyOrRawKey();
+	private Object startKey;
 	private String startDocId;
-	private final KeyOrRawKey endKey = new KeyOrRawKey();
+	private Object endKey;
 	private String endDocId;
 	private int limit = NOT_SET;
 	private String staleOk;
@@ -126,7 +59,7 @@ public class ViewQuery {
 	private String listName;
 
 	public ViewQuery() {
-		this(DEFAULT_OBJECT_MAPPER_FACTORY.createObjectMapper());
+		mapper = DEFAULT_MAPPER;
 	}
 	/**
 	 * Bring your own ObjectMapper.
@@ -163,7 +96,7 @@ public class ViewQuery {
     }
 
     public boolean isStaleOk() {
-        return staleOk != null && ("ok".equals(staleOk) || "update_after".equals(staleOk));
+        return "ok".equals(staleOk) || "update_after".equals(staleOk);
     }
 
     public boolean isDescending() {
@@ -255,20 +188,20 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(String s) {
 		reset();
-		key.setKey(s);
+		key = s;
 		return this;
 	}
 	/**
 	 * @param Will be parsed as JSON.
 	 * @return the view query for chained calls
 	 */
-	public ViewQuery rawKey(String s) {
+	public ViewQuery rawKey(final String s) {
 		reset();
-		key.setRawKey(s);
+		key = parseJson(s);
 		return this;
 	}
 
-	private JsonNode parseJson(String s) {
+	private JsonNode parseJson(final String s) {
 		try {
 			return mapper.readTree(s);
 		} catch (Exception e) {
@@ -281,16 +214,16 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(int i) {
 		reset();
-		key.setKey(i);
+		key = i;
 		return this;
 	}
 	/**
 	 * @param Will be JSON-encoded.
 	 * @return the view query for chained calls
 	 */
-	public ViewQuery key(long l) {
+	public ViewQuery key(final long l) {
 		reset();
-		key.setKey(l);
+		key = l;
 		return this;
 	}
 	/**
@@ -299,7 +232,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(float f) {
 		reset();
-		key.setKey(f);
+		key = f;
 		return this;
 	}
 	/**
@@ -308,7 +241,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(double d) {
 		reset();
-		key.setKey(d);
+		key = d;
 		return this;
 	}
 	/**
@@ -317,7 +250,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(boolean b) {
 		reset();
-		key.setKey(b);
+		key = b;
 		return this;
 	}
 	/**
@@ -326,7 +259,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery key(Object o) {
 		reset();
-		key.setKey(o);
+		key = o;
 		return this;
 	}
     /**
@@ -352,9 +285,9 @@ public class ViewQuery {
 	 * @param Will be JSON-encoded.
 	 * @return the view query for chained calls
 	 */
-	public ViewQuery startKey(String s) {
+	public ViewQuery startKey(final String s) {
 		reset();
-		startKey.setKey(s);
+		startKey = s;
 		return this;
 	}
 
@@ -362,18 +295,18 @@ public class ViewQuery {
 	 * @param Will be parsed as json
 	 * @return the view query for chained calls
 	 */
-	public ViewQuery rawStartKey(String s) {
+	public ViewQuery rawStartKey(final String s) {
 		reset();
-		startKey.setRawKey(s);
+		startKey = parseJson(s);
 		return this;
 	}
 	/**
 	 * @param Will be JSON-encoded.
 	 * @return the view query for chained calls
 	 */
-	public ViewQuery startKey(int i) {
+	public ViewQuery startKey(final int i) {
 		reset();
-		startKey.setKey(i);
+		startKey = i;
 		return this;
 	}
 	/**
@@ -382,7 +315,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery startKey(long l) {
 		reset();
-		startKey.setKey(l);
+		startKey = l;
 		return this;
 	}
 	/**
@@ -391,7 +324,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery startKey(float f) {
 		reset();
-		startKey.setKey(f);
+		startKey = f;
 		return this;
 	}
 	/**
@@ -434,7 +367,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(String s) {
 		reset();
-		endKey.setKey(s);
+		endKey = s;
 		return this;
 	}
 	/**
@@ -443,7 +376,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery rawEndKey(String s) {
 		reset();
-		endKey.setRawKey(s);
+		endKey = parseJson(s);
 		return this;
 	}
 	/**
@@ -452,7 +385,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(int i) {
 		reset();
-		endKey.setKey(i);
+		endKey = i;
 		return this;
 	}
 	/**
@@ -461,7 +394,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(long l) {
 		reset();
-		endKey.setKey(l);
+		endKey = l;
 		return this;
 	}
 	/**
@@ -470,7 +403,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(float f) {
 		reset();
-		endKey.setKey(f);
+		endKey = f;
 		return this;
 	}
 	/**
@@ -479,7 +412,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(double d) {
 		reset();
-		endKey.setKey(d);
+		endKey = d;
 		return this;
 	}
 	/**
@@ -488,7 +421,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(boolean b) {
 		reset();
-		endKey.setKey(b);
+		endKey = b;
 		return this;
 	}
 
@@ -498,7 +431,7 @@ public class ViewQuery {
 	 */
 	public ViewQuery endKey(Object o) {
 		reset();
-		endKey.setKey(o);
+		endKey = o;
 		return this;
 	}
 
@@ -628,7 +561,7 @@ public class ViewQuery {
 	}
 
 	public Object getKey() {
-		return key.asDecoded();
+		return key;
 	}
 
     public boolean hasMultipleKeys() {
@@ -644,11 +577,11 @@ public class ViewQuery {
 
 
     public Object getStartKey() {
-		return startKey.asDecoded();
+		return startKey;
 	}
 
 	public Object getEndKey() {
-		return endKey.asDecoded();
+		return endKey;
 	}
 
 	public String buildQuery() {
@@ -665,16 +598,16 @@ public class ViewQuery {
     public URI buildQueryURI() {
 		URI query = buildViewPath();
 
-		if (!key.isNull()) {
-			query.param("key", key.asEncoded());
+		if (isNotEmpty(key)) {
+			query.param("key", jsonEncode(key));
 		}
 
-		if (!startKey.isNull()) {
-			query.param("startkey", startKey.asEncoded());
+		if (isNotEmpty(startKey)) {
+			query.param("startkey", jsonEncode(startKey));
 		}
 
-		if (!endKey.isNull()) {
-			query.param("endkey", endKey.asEncoded());
+		if (isNotEmpty(endKey)) {
+			query.param("endkey", jsonEncode(endKey));
 		}
 
 		if (isNotEmpty(startDocId)) {
@@ -731,21 +664,21 @@ public class ViewQuery {
 		return query;
 	}
 
-    @edu.umd.cs.findbugs.annotations.SuppressWarnings({"SA_FIELD_SELF_ASSIGNMENT", "CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE"})
 	public ViewQuery clone() {
-		ViewQuery copy = new ViewQuery(mapper);
+		ViewQuery copy = new ViewQuery();
+		copy.mapper = mapper;
 		copy.cacheOk = cacheOk;
 		copy.dbPath = dbPath;
 		copy.descending = descending;
 		copy.designDocId = designDocId;
 		copy.endDocId = endDocId;
-		endKey.copyTo(copy.endKey);
+		copy.endKey = endKey;
 		copy.group = group;
 		copy.groupLevel = groupLevel;
 		copy.ignoreNotFound = ignoreNotFound;
 		copy.includeDocs = includeDocs;
 		copy.inclusiveEnd = inclusiveEnd;
-		key.copyTo(copy.key);
+		copy.key = key;
 		if (keys != null) {
 			copy.keys = keys.clone();
 		}
@@ -753,16 +686,23 @@ public class ViewQuery {
 		copy.listName = listName;
 		copy.queryParams.putAll(queryParams);
 		copy.reduce = reduce;
-		copy.skip = skip;
+		copy.skip = copy.skip;
 		copy.staleOk = staleOk;
 		copy.startDocId = startDocId;
-		startKey.copyTo(copy.startKey);
+		copy.startKey = startKey;
 		copy.updateSeq = updateSeq;
 		copy.viewName = viewName;
 		return copy;
 	}
 
-	private void appendQueryParams(URI query) {
+	private String jsonEncode(final Object key) {
+		try {
+			return mapper.writeValueAsString(key);
+		} catch (Exception e) {
+			throw Exceptions.propagate(e);
+		}
+	}
+	private void appendQueryParams(final URI query) {
 		for (Map.Entry<String, String> param : queryParams.entrySet()) {
 			query.param(param.getKey(), param.getValue());
 		}
@@ -932,7 +872,7 @@ public class ViewQuery {
 	public boolean isIgnoreNotFound() {
 		return ignoreNotFound;
 	}
-	
+
 	@Override
 	public String toString() {
 		return buildQuery();
@@ -962,13 +902,12 @@ public class ViewQuery {
             return Collections.unmodifiableList(keys);
 		}
 
-        @edu.umd.cs.findbugs.annotations.SuppressWarnings(value="CN_IMPLEMENTS_CLONE_BUT_NOT_CLONEABLE")
 		public Keys clone() {
 			return new Keys(keys);
 		}
 
 		public String toJson() {
-			return toJson(DEFAULT_OBJECT_MAPPER_FACTORY.createObjectMapper());
+			return toJson(DEFAULT_MAPPER);
 		}
 
 		public String toJson(ObjectMapper mapper) {

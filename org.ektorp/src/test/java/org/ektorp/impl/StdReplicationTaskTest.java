@@ -21,8 +21,8 @@ public class StdReplicationTaskTest {
 		assertNotNull(activeTask);
 		ReplicationTask replicationTask = (ReplicationTask) activeTask;
 		assertEquals("0.992.0>", replicationTask.getPid());
-		assertEquals(Long.valueOf(5000l), replicationTask.getCheckpointInterval());
-		assertEquals(95948, replicationTask.getCheckpointedSourceSequenceId());
+		assertEquals(5000l, replicationTask.getCheckpointInterval());
+		assertEquals(String.valueOf(95948), replicationTask.getCheckpointedSourceSequenceId());
 		assertEquals(true, replicationTask.isContinuous());
 		assertEquals(null, replicationTask.getReplicationDocumentId());
 		assertEquals(0, replicationTask.getWriteFailures());
@@ -33,7 +33,7 @@ public class StdReplicationTaskTest {
 		assertEquals("cc86d412959b7c453ab661ce23312db7+continuous", replicationTask.getReplicationId());
 		assertEquals(777, replicationTask.getTotalRevisionsChecked());
 		assertEquals("sourceDB", replicationTask.getSourceDatabaseName());
-		assertEquals(373378, replicationTask.getSourceSequenceId());
+		assertEquals(String.valueOf(373378), replicationTask.getSourceSequenceId());
 		assertEquals(1422566612, replicationTask.getStartedOn().getTime());
 		assertEquals("targetDB", replicationTask.getTargetDatabaseName());
 		assertEquals(1422581543, replicationTask.getUpdatedOn().getTime());
@@ -46,8 +46,8 @@ public class StdReplicationTaskTest {
 		assertNotNull(activeTask);
 		ReplicationTask replicationTask = (ReplicationTask) activeTask;
 		assertEquals("0.992.0>", replicationTask.getPid());
-		assertEquals(null, replicationTask.getCheckpointInterval());
-		assertEquals(95948, replicationTask.getCheckpointedSourceSequenceId());
+		assertEquals(0, replicationTask.getCheckpointInterval());
+		assertEquals(String.valueOf(95948), replicationTask.getCheckpointedSourceSequenceId());
 		assertEquals(true, replicationTask.isContinuous());
 		assertEquals(null, replicationTask.getReplicationDocumentId());
 		assertEquals(0, replicationTask.getWriteFailures());
@@ -58,7 +58,7 @@ public class StdReplicationTaskTest {
 		assertEquals("cc86d412959b7c453ab661ce23312db7+continuous", replicationTask.getReplicationId());
 		assertEquals(777, replicationTask.getTotalRevisionsChecked());
 		assertEquals("sourceDB", replicationTask.getSourceDatabaseName());
-		assertEquals(373378, replicationTask.getSourceSequenceId());
+		assertEquals(String.valueOf(373378), replicationTask.getSourceSequenceId());
 		assertEquals(1422566612, replicationTask.getStartedOn().getTime());
 		assertEquals("targetDB", replicationTask.getTargetDatabaseName());
 		assertEquals(1422581543, replicationTask.getUpdatedOn().getTime());
