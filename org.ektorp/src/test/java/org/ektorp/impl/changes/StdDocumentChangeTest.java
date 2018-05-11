@@ -84,7 +84,6 @@ public class StdDocumentChangeTest {
         assertFalse(objectUnderTest.isDeleted());
     }
 
-
     @Test
     public void test_streaming_changes() throws IOException {
 	    HttpResponse httpResponse = ResponseOnFileStub.newInstance(200, "changes/changes_full.json");
