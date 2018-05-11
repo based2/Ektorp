@@ -57,7 +57,7 @@ public class AttachmentsInOrderParser
 
     private static List<String> readAttachmentsObject(JsonParser jsonParser) throws IOException
     {
-        List<String> attachmentNameList = new ArrayList<String>();
+        List<String> attachmentNameList = new ArrayList<>();
         while(jsonParser.nextToken() != JsonToken.END_OBJECT)
         {
             String attachmentName = jsonParser.getCurrentName();

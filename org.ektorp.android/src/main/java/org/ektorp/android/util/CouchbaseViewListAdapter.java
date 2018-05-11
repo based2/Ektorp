@@ -53,7 +53,7 @@ public abstract class CouchbaseViewListAdapter extends BaseAdapter {
 		this.viewQuery = viewQuery.updateSeq(true);
 		this.followChanges = followChanges;
 
-		listRows = new ArrayList<Row>();
+		listRows = new ArrayList<>();
 
 		//trigger initial update
 		updateListItems();

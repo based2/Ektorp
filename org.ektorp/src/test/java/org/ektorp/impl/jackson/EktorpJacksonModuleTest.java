@@ -70,7 +70,7 @@ public class EktorpJacksonModuleTest {
 
 		public void addChild(ChildDoc c) {
 			if (children == null) {
-				children = new LinkedHashSet<EktorpJacksonModuleTest.ChildDoc>();
+				children = new LinkedHashSet<>();
 			}
 			children.add(c);
 		}
@@ -91,7 +91,7 @@ public class EktorpJacksonModuleTest {
 
 		public void addChild(ChildDoc c) {
 			if (children == null) {
-				children = new LinkedHashSet<EktorpJacksonModuleTest.ChildDoc>();
+				children = new LinkedHashSet<>();
 			}
 			children.add(c);
 		}

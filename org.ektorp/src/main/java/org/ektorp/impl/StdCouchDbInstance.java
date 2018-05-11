@@ -233,7 +233,7 @@ public class StdCouchDbInstance implements CouchDbInstance {
 
       // We have to copy the list here because Java lacks covariance (i.e. we can't just return
       // the List<StdActiveTask> because it's not a Collection<ActiveTask>).
-      Collection<ActiveTask> ret = new ArrayList<ActiveTask>();
+      Collection<ActiveTask> ret = new ArrayList<>();
       for (StdActiveTask task : tasks) {
           ret.add(task);
       }

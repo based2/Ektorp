@@ -36,7 +36,7 @@ public class BulkOperationResponseHandler extends StdResponseHandler<List<Docume
 	public List<DocumentOperationResult> success(HttpResponse hr)
 			throws Exception {
 		JsonParser jp = objectMapper.getFactory().createParser(hr.getContent());
-		List<DocumentOperationResult> result = new ArrayList<DocumentOperationResult>();
+		List<DocumentOperationResult> result = new ArrayList<>();
 		Iterator<?> objectsIter = objects == null ? null : objects.iterator();
 		while (jp.nextToken() != null) {
 			switch (jp.getCurrentToken()) {

@@ -29,7 +29,7 @@ import org.slf4j.*;
 public final class Documents {
 
 	private final static Logger LOG = LoggerFactory.getLogger(Documents.class);
-	private final static ConcurrentMap<Class<?>, DocumentAccessor> accessors = new ConcurrentHashMap<Class<?>, DocumentAccessor>();
+	private final static ConcurrentMap<Class<?>, DocumentAccessor> accessors = new ConcurrentHashMap<>();
 	private static final String ID_FIELD_NAME = "_id";
 	private static final String REV_FIELD_NAME = "_rev";
 

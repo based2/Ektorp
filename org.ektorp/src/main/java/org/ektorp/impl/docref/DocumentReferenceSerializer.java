@@ -43,7 +43,7 @@ public class DocumentReferenceSerializer extends JsonSerializer<Object> {
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
 		try {
-			final Set<Object> docsToSave = new HashSet<Object>();
+			final Set<Object> docsToSave = new HashSet<>();
 
 			ReflectionUtils.eachField(value.getClass(), new Predicate<Field>() {
 				@Override
@@ -84,7 +84,9 @@ public class DocumentReferenceSerializer extends JsonSerializer<Object> {
 		int maxErrors = 10;
 		for (DocumentOperationResult docResult : res) {
 			if (maxErrors == 0) {
-				sb.append(".. " + res.size() + " more ");
+				sb.append(".. ");
+				sb.append(res.size());
+				sb.append(" more ");
 				break;
 			}
 			sb.append(docResult.getId());
@@ -103,7 +105,7 @@ public class DocumentReferenceSerializer extends JsonSerializer<Object> {
 		if (o == null) {
 			return Collections.emptySet();
 		}
-		Set<Object> docsToSave = new LinkedHashSet<Object>();
+		Set<Object> docsToSave = new LinkedHashSet<>();
 		if (Proxy.isProxyClass(o.getClass())
 				&& Proxy.getInvocationHandler(o) instanceof ViewBasedCollection) {
 
@@ -111,11 +113,11 @@ public class DocumentReferenceSerializer extends JsonSerializer<Object> {
 					.getInvocationHandler(o);
 
 			if (c.initialized()) {
-				docsToSave.addAll((Collection<?>) o);
+				docsToSave.addAll( o);
 				docsToSave.addAll(c.getPendingRemoval());
 			}
-		} else if (o instanceof Collection && ((Collection<?>) o).size() > 0) {
-			docsToSave.addAll((Collection<?>) o);
+		} else if (o.size() > 0) {
+			docsToSave.addAll( o);
 		}
 		return docsToSave;
 	}

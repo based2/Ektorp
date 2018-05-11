@@ -14,7 +14,7 @@ public class JSONComparator {
     private static final Map<Class<?>, ValueComparator> valueComparators = createValueComparatorsMap();
 
     private static <T> Map<Class<?>, ValueComparator> createValueComparatorsMap() {
-        Map<Class<?>, ValueComparator> valueComparators = new ClassHierarchyMap<ValueComparator>();
+        final Map<Class<?>, ValueComparator> valueComparators = new ClassHierarchyMap<>();
         valueComparators.put(Map.class, new MapComparator());
         valueComparators.put(List.class, new ListComparator());
         valueComparators.put(Object.class, new ObjectComparator());
@@ -29,14 +29,14 @@ public class JSONComparator {
     }
 
     public static <T> boolean areEqual(Reader jsonA, Reader jsonB) {
-        ObjectMapper om = new ObjectMapper();
-        Map<String, T> mapA = null;
+        final ObjectMapper om = new ObjectMapper();
+        Map<String, T> mapA;
         try {
             mapA = om.readValue(jsonA, Map.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Map<String, T> mapB = null;
+        Map<String, T> mapB;
         try {
             mapB = om.readValue(jsonB, Map.class);
         } catch (IOException e) {
@@ -71,7 +71,7 @@ public class JSONComparator {
         return vp;
     }
 
-    private static interface ValueComparator<T> {
+    private interface ValueComparator<T> {
 
         boolean equals(T a, T b);
 
@@ -100,7 +100,6 @@ public class JSONComparator {
             }
             return true;
         }
-
     }
 
     private static class ListComparator implements ValueComparator<List> {

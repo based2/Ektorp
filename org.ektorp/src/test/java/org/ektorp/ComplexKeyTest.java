@@ -13,9 +13,9 @@ import org.junit.*;
 public class ComplexKeyTest {
 	
 	// 1970-01-01T00:00:00.000+0000
-	static final String ISO_8601_DATE_FORMAT_REGEX = ".*\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4}.*";
-	
-	ObjectMapper mapper = new StdObjectMapperFactory().createObjectMapper();
+	private static final String ISO_8601_DATE_FORMAT_REGEX = ".*\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}\\+\\d{4}.*";
+
+	private ObjectMapper mapper = new StdObjectMapperFactory().createObjectMapper();
 	
 	@Test
 	public void testToJson() throws Exception {

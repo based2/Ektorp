@@ -75,35 +75,35 @@ public class DesignDocument extends OpenCouchDbDocument {
 
     private Map<String, String> lists() {
         if (lists == null) {
-            lists = new HashMap<String, String>();
+            lists = new HashMap<>();
         }
         return lists;
     }
 
     private Map<String, String> shows() {
         if (shows == null) {
-            shows = new HashMap<String, String>();
+            shows = new HashMap<>();
         }
         return shows;
     }
 
     private Map<String, View> views() {
         if (views == null) {
-            views = new HashMap<String, View>();
+            views = new HashMap<>();
         }
         return views;
     }
 
     private Map<String, String> filters() {
         if (filters == null) {
-            filters = new HashMap<String, String>();
+            filters = new HashMap<>();
         }
         return filters;
     }
 
     private Map<String, String> updates() {
         if (updateHandlers == null) {
-            updateHandlers = new HashMap<String, String>();
+            updateHandlers = new HashMap<>();
         }
         return updateHandlers;
     }
@@ -330,7 +330,7 @@ public class DesignDocument extends OpenCouchDbDocument {
     	 */
     	private Map<String, Object> anonymous() {
     		if (anonymous == null) {
-    			anonymous = new HashMap<String, Object>();
+    			anonymous = new HashMap<>();
     		}
     		return anonymous;
     	}

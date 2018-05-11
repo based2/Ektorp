@@ -15,7 +15,7 @@ public class EmbeddedDocViewResponseHandlerTest {
 
 	@Before
 	public void setup() {
-		handler = new EmbeddedDocViewResponseHandler<EmbeddedDocViewResponseHandlerTest.TestDoc>(TestDoc.class, new ObjectMapper());
+		handler = new EmbeddedDocViewResponseHandler<>(TestDoc.class, new ObjectMapper());
 	}
 
 	@Test

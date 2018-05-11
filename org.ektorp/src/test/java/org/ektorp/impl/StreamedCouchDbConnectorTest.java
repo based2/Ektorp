@@ -123,12 +123,9 @@ public class StreamedCouchDbConnectorTest extends StdCouchDbConnectorTest {
         final ByteArrayOutputStream output = new ByteArrayOutputStream();
         doAnswer(new MarshallEntityAndReturnAnswer(output, HttpResponseStub.valueOf(201, OK_RESPONSE_WITH_ID_AND_REV))).when(httpClient).put(anyString(), any(HttpEntity.class));
         JsonNode root;
-        InputStream resourceAsStream = null;
-        try {
-            resourceAsStream = StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json");
+        try (InputStream resourceAsStream =
+                     StdCouchDbConnectorTest.class.getResourceAsStream("create_from_json_node.json")) {
             root = new ObjectMapper().readValue(resourceAsStream, JsonNode.class);
-        } finally {
-            IOUtils.closeQuietly(resourceAsStream);
         }
         dbCon.create("some_id", root);
         ArgumentCaptor<HttpEntity> ac = ArgumentCaptor.forClass(HttpEntity.class);

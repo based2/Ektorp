@@ -148,12 +148,7 @@ package org.ektorp.util;
  *
  * TODO use https://docs.oracle.com/javase/8/docs/api/java/util/Base64.html for Java8
  */
-public class Base64
-{
-
-/* ********  P U B L I C   F I E L D S  ******** */
-
-
+public class Base64 {
     /** No options specified. Value is zero. */
     public final static int NO_OPTIONS = 0;
 
@@ -170,7 +165,6 @@ public class Base64
 
     /** Specify that gzipped data should <em>not</em> be automatically gunzipped. */
     public final static int DONT_GUNZIP = 4;
-
 
     /** Do break lines when encoding. Value is 8. */
     public final static int DO_BREAK_LINES = 8;
@@ -410,7 +404,7 @@ public class Base64
      * in which case one of them will be picked, though there is
      * no guarantee as to which one will be picked.
      */
-    private final static byte[] getAlphabet( int options ) {
+    private byte[] getAlphabet( int options ) {
         if ((options & URL_SAFE) == URL_SAFE) {
             return _URL_SAFE_ALPHABET;
         } else if ((options & ORDERED) == ORDERED) {
@@ -428,7 +422,7 @@ public class Base64
      * in which case one of them will be picked, though there is
      * no guarantee as to which one will be picked.
      */
-    private final static byte[] getDecodabet( int options ) {
+    private byte[] getDecodabet( int options ) {
         if( (options & URL_SAFE) == URL_SAFE) {
             return _URL_SAFE_DECODABET;
         } else if ((options & ORDERED) == ORDERED) {
@@ -563,7 +557,7 @@ public class Base64
         } catch (java.io.IOException ex) {
             assert false : ex.getMessage();
         }   // end catch
-        assert encoded != null;
+        //assert encoded != null;
         return encoded;
     }   // end encodeBytes
 
@@ -1569,5 +1563,4 @@ public class Base64
 
     }   // end inner class OutputStream
 
-
-}   // end class Base64
+}

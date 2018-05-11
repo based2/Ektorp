@@ -73,8 +73,7 @@ public class AndroidHttpClient extends StdHttpClient {
                 SchemeRegistry schemeRegistry = new SchemeRegistry();
                 schemeRegistry.register(configureScheme());
 
-                ThreadSafeClientConnManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
-                conman = cm;
+                conman = new ThreadSafeClientConnManager(params, schemeRegistry);
             }
 
             if (cleanupIdleConnections) {

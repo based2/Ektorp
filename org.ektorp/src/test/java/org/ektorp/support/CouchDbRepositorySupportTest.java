@@ -24,7 +24,7 @@ public class CouchDbRepositorySupportTest {
 		
 		db = mock(CouchDbConnector.class, new ThrowsException(new UnsupportedOperationException("This interaction was not expected on this mock")));
         doNothing().when(db).createDatabaseIfNotExists();
-		repo = new CouchDbRepositorySupport<TestDoc>(TestDoc.class, db);
+		repo = new CouchDbRepositorySupport<>(TestDoc.class, db);
 	}
 
 	@After
@@ -67,7 +67,7 @@ public class CouchDbRepositorySupportTest {
 	public void given_that_all_view_exists_when_calling_getAll_then_it_should_be_queried() throws Exception {
 		setupDesignDoc();
 
-		List<TestDoc> queryResult = new ArrayList<TestDoc>();
+		List<TestDoc> queryResult = new ArrayList<>();
 		queryResult.add(new TestDoc("id", "f"));
 		queryResult.add(new TestDoc("id2", "f"));
 		queryResult.add(new TestDoc("id3", "f"));
@@ -95,7 +95,7 @@ public class CouchDbRepositorySupportTest {
 
 	@Test
 	public void given_that_no_all_view_exists_when_calling_getAll_then_get_allIds_should_be_used() {
-		List<String> allIds = new ArrayList<String>();
+		List<String> allIds = new ArrayList<>();
 		allIds.add("id1");
 		allIds.add("id2");
 		allIds.add("id3");

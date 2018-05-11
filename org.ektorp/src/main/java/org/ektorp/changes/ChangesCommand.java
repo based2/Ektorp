@@ -31,7 +31,7 @@ public class ChangesCommand {
 		heartbeat = b.heartbeat;
 		limit = b.limit;
 		if (b.extraQueryParams != null) {
-			extraQueryParams = Collections.unmodifiableMap(new LinkedHashMap<String, String>(b.extraQueryParams));	
+			extraQueryParams = Collections.unmodifiableMap(new LinkedHashMap<>(b.extraQueryParams));
 		} else {
 			extraQueryParams = null;
 		}
@@ -164,7 +164,7 @@ public class ChangesCommand {
 			since = other.since;
 			limit = other.limit;
 			if (other.extraQueryParams != null) {
-			    extraQueryParams = new LinkedHashMap<String, String>(other.extraQueryParams);
+			    extraQueryParams = new LinkedHashMap<>(other.extraQueryParams);
 			}
 			return this;
 		}

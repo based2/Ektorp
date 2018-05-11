@@ -24,13 +24,13 @@ public final class ContinuousChangesFeed implements ChangesFeed, Runnable {
 	private final static Logger LOG = LoggerFactory.getLogger(ContinuousChangesFeed.class);
 	private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 	private final static DocumentChange INTERRUPT_MARKER = new StdDocumentChange(NullNode.getInstance());
-	private final static Set<Class<?>> INTERRUPTED_EXCEPTION_TYPES = new HashSet<Class<?>>();
+	private final static Set<Class<?>> INTERRUPTED_EXCEPTION_TYPES = new HashSet<>();
 	static {
 		INTERRUPTED_EXCEPTION_TYPES.add(InterruptedException.class);
 		INTERRUPTED_EXCEPTION_TYPES.add(InterruptedIOException.class);
 	}
 
-	private final BlockingQueue<DocumentChange> changes = new LinkedBlockingQueue<DocumentChange>(100);
+	private final BlockingQueue<DocumentChange> changes = new LinkedBlockingQueue<>(100);
 	private final BufferedReader reader;
 	private final Thread thread = new Thread(this);
 	private volatile boolean shouldRun = true;

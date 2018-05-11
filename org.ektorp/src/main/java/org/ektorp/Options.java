@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class Options {
 
-	private Map<String, String> options = new LinkedHashMap<String, String>();
+	private Map<String, String> options = new LinkedHashMap<>();
 	/**
 	 * The loaded doc will include the special field '_conflicts' that contains all the conflicting revisions of the document.
 	 * @return

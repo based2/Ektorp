@@ -14,11 +14,11 @@ public class ClassHierarchyMap<V> implements  Map<Class<?>, V>{
 	private final Map<Class<?>, V> map;
 	
 	public ClassHierarchyMap() {
-		map = new IdentityHashMap<Class<?>, V>();
+		map = new IdentityHashMap<>();
 	}
 	
 	public ClassHierarchyMap(int capacity) {
-		map = new IdentityHashMap<Class<?>, V>(capacity);
+		map = new IdentityHashMap<>(capacity);
 	}
 	
 	public void clear() {

@@ -69,12 +69,11 @@ public class StdResponseHandler<T> implements ResponseCallback<T> {
 		return mapper.readTree(inputStream);
 	}
 
-	protected static <T> T checkResponseBodyOkAndReturnDefaultValue(HttpResponse hr, T defaultValue, ObjectMapper mapper) throws IOException {
-		InputStream content = hr.getContent();
-		try {
-			content = hr.getContent();
-			JsonNode body = responseBodyAsNode(content, MAPPER);
-			JsonNode okNode = body.get("ok");
+	protected static <T> T checkResponseBodyOkAndReturnDefaultValue(final HttpResponse hr, final T defaultValue,
+																	final ObjectMapper mapper) throws IOException {
+		try (InputStream content = hr.getContent()) {
+			final JsonNode body = responseBodyAsNode(content, MAPPER);
+			final JsonNode okNode = body.get("ok");
 			if (okNode != null) {
 				if (okNode.isBoolean()) {
 					if (okNode.booleanValue()) {
@@ -83,8 +82,6 @@ public class StdResponseHandler<T> implements ResponseCallback<T> {
 				}
 			}
 			throw new DbAccessException("Unexpected response body content, expected {\"ok\":true}, got " + body.toString());
-		} finally {
-			IOUtils.closeQuietly(content);
 		}
 	}
 

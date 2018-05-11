@@ -129,8 +129,7 @@ public class ViewBasedCollection implements InvocationHandler {
 		}
 	}
 
-	private Collection<? extends Object> difference(Collection<?> c1,
-			Collection<?> c2) {
+	private Collection<? extends Object> difference(Collection<?> c1, Collection<?> c2) {
 		final List<Object> a1 = new ArrayList<>(c1);
 		final List<Object> b1 = new ArrayList<>(c1);
 		final List<Object> a2 = new ArrayList<>(c2);

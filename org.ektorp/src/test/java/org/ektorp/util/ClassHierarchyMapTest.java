@@ -6,7 +6,7 @@ import org.junit.*;
 
 public class ClassHierarchyMapTest {
 
-	private ClassHierarchyMap<String> classMap = new ClassHierarchyMap<String>();
+	private ClassHierarchyMap<String> classMap = new ClassHierarchyMap<>();
 
 	@Test
 	public void concrete_class_should_map_to_itself() {

@@ -157,7 +157,7 @@ public class EktorpBeanDeserializerModifier extends BeanDeserializerModifier {
 	}
 
 	@SuppressWarnings("rawtypes")
-	final static Map<String, Class<? extends Collection>> _collectionFallbacks = new HashMap<String, Class<? extends Collection>>();
+	final static Map<String, Class<? extends Collection>> _collectionFallbacks = new HashMap<>();
 	static {
 		_collectionFallbacks.put(Collection.class.getName(), ArrayList.class);
 		_collectionFallbacks.put(List.class.getName(), ArrayList.class);

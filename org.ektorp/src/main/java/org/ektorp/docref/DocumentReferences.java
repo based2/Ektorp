@@ -28,7 +28,7 @@ public @interface DocumentReferences {
 	 * <code>EAGER</code> means that all references of arbitrary depth will be
 	 * followed directly at load time.
 	 */
-	public FetchType fetch() default FetchType.LAZY;
+	FetchType fetch() default FetchType.LAZY;
 
 	/**
 	 * If view is left unspecified a view will be generated for this document reference
@@ -39,31 +39,35 @@ public @interface DocumentReferences {
 	 * this collection by performing a view query against the specified view
 	 * with the document id of the declaring class.
 	 */
-	public String view() default "";
+	String view() default "";
 
 	/**
 	 * Design document of the view specified by <code>view</code>
 	 */
-	public String designDoc() default "";
+	String designDoc() default "";
+
 	/**
 	 * Defines the sort direction of the loaded collection.
 	 */
-	public boolean descendingSortOrder() default false;
+	boolean descendingSortOrder() default false;
+
 	/**
 	 * The sort order  of the loaded collection can be specified by this parameter.
 	 * This parameter will refer to a field in the child docs.
 	 * Note: This parameter is only applied if view is not specified.
 	 */
-	public String orderBy() default "";
+	String orderBy() default "";
+
 	/**
 	 * The name of the back referring field in the child must be specified here.
 	 * Note: This parameter is only applied if view is not specified.
 	 */
-	public String backReference() default "";
+	String backReference() default "";
+
 	/**
 	 * Set the type if cascade behaviour this collection should have.
 	 * @return
 	 */
-	public CascadeType[] cascade() default {CascadeType.NONE};
+	CascadeType[] cascade() default {CascadeType.NONE};
 
 }

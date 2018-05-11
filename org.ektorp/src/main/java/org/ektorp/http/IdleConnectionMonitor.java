@@ -39,7 +39,7 @@ public class IdleConnectionMonitor {
         private ScheduledFuture<?> thisFuture;
 
         CleanupTask(ClientConnectionManager cm) {
-            this.cm = new WeakReference<ClientConnectionManager>(cm);
+            this.cm = new WeakReference<>(cm);
         }
 
         public void setFuture(ScheduledFuture<?> future) {

@@ -1,12 +1,6 @@
 package org.ektorp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -254,7 +248,7 @@ public class ViewQuery {
 		return this;
 	}
 	/**
-	 * @param Will be JSON-encoded.
+	 * @param o be JSON-encoded.
 	 * @return the view query for chained calls
 	 */
 	public ViewQuery key(Object o) {
@@ -282,7 +276,7 @@ public class ViewQuery {
     }
 
 	/**
-	 * @param Will be JSON-encoded.
+	 * @param s be JSON-encoded.
 	 * @return the view query for chained calls
 	 */
 	public ViewQuery startKey(final String s) {
@@ -292,7 +286,7 @@ public class ViewQuery {
 	}
 
 	/**
-	 * @param Will be parsed as json
+	 * @param  s  parsed as json
 	 * @return the view query for chained calls
 	 */
 	public ViewQuery rawStartKey(final String s) {
@@ -686,7 +680,7 @@ public class ViewQuery {
 		copy.listName = listName;
 		copy.queryParams.putAll(queryParams);
 		copy.reduce = reduce;
-		copy.skip = copy.skip;
+		//copy.skip = copy.skip;
 		copy.staleOk = staleOk;
 		copy.startDocId = startDocId;
 		copy.startKey = startKey;
@@ -740,131 +734,41 @@ public class ViewQuery {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((cachedQuery == null) ? 0 : cachedQuery.hashCode());
-		result = prime * result + ((dbPath == null) ? 0 : dbPath.hashCode());
-		result = prime * result + (descending ? 1231 : 1237);
-		result = prime * result
-				+ ((designDocId == null) ? 0 : designDocId.hashCode());
-		result = prime * result
-				+ ((endDocId == null) ? 0 : endDocId.hashCode());
-		result = prime * result + ((endKey == null) ? 0 : endKey.hashCode());
-		result = prime * result + (group ? 1231 : 1237);
-		result = prime * result + groupLevel;
-		result = prime * result + (ignoreNotFound ? 1231 : 1237);
-		result = prime * result + (includeDocs ? 1231 : 1237);
-		result = prime * result + (inclusiveEnd ? 1231 : 1237);
-		result = prime * result + (updateSeq ? 1231 : 1237);
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
-		result = prime * result + limit;
-		result = prime * result
-				+ ((listName == null) ? 0 : listName.hashCode());
-		result = prime * result
-				+ ((queryParams == null) ? 0 : queryParams.hashCode());
-		result = prime * result + (reduce ? 1231 : 1237);
-		result = prime * result + skip;
-		result = prime * result + ((staleOk == null) ? 0 : staleOk.hashCode());
-		result = prime * result
-				+ ((startDocId == null) ? 0 : startDocId.hashCode());
-		result = prime * result
-				+ ((startKey == null) ? 0 : startKey.hashCode());
-		result = prime * result
-				+ ((viewName == null) ? 0 : viewName.hashCode());
-		return result;
+		return Objects.hash(queryParams, mapper, dbPath, designDocId, viewName, key, keys, startKey, startDocId, endKey, endDocId, limit, staleOk, descending, skip, group, groupLevel, reduce, includeDocs, inclusiveEnd, ignoreNotFound, updateSeq, cacheOk, cachedQuery, listName);
 	}
+
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ViewQuery other = (ViewQuery) obj;
-		if (cachedQuery == null) {
-			if (other.cachedQuery != null)
-				return false;
-		} else if (!cachedQuery.equals(other.cachedQuery))
-			return false;
-		if (dbPath == null) {
-			if (other.dbPath != null)
-				return false;
-		} else if (!dbPath.equals(other.dbPath))
-			return false;
-		if (descending != other.descending)
-			return false;
-		if (designDocId == null) {
-			if (other.designDocId != null)
-				return false;
-		} else if (!designDocId.equals(other.designDocId))
-			return false;
-		if (endDocId == null) {
-			if (other.endDocId != null)
-				return false;
-		} else if (!endDocId.equals(other.endDocId))
-			return false;
-		if (endKey == null) {
-			if (other.endKey != null)
-				return false;
-		} else if (!endKey.equals(other.endKey))
-			return false;
-		if (group != other.group)
-			return false;
-		if (groupLevel != other.groupLevel)
-			return false;
-		if (ignoreNotFound != other.ignoreNotFound)
-			return false;
-		if (includeDocs != other.includeDocs)
-			return false;
-		if (inclusiveEnd != other.inclusiveEnd)
-			return false;
-		if (updateSeq != other.updateSeq)
-			return false;
-		if (key == null) {
-			if (other.key != null)
-				return false;
-		} else if (!key.equals(other.key))
-			return false;
-		if (limit != other.limit)
-			return false;
-		if (listName == null) {
-			if (other.listName != null)
-				return false;
-		} else if (!listName.equals(other.listName))
-			return false;
-		if (queryParams == null) {
-			if (other.queryParams != null)
-				return false;
-		} else if (!queryParams.equals(other.queryParams))
-			return false;
-		if (reduce != other.reduce)
-			return false;
-		if (skip != other.skip)
-			return false;
-		if (staleOk == null) {
-			if (other.staleOk != null)
-				return false;
-		} else if (!staleOk.equals(other.staleOk))
-			return false;
-		if (startDocId == null) {
-			if (other.startDocId != null)
-				return false;
-		} else if (!startDocId.equals(other.startDocId))
-			return false;
-		if (startKey == null) {
-			if (other.startKey != null)
-				return false;
-		} else if (!startKey.equals(other.startKey))
-			return false;
-		if (viewName == null) {
-			if (other.viewName != null)
-				return false;
-		} else if (!viewName.equals(other.viewName))
-			return false;
-		return true;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ViewQuery viewQuery = (ViewQuery) o;
+		return limit == viewQuery.limit &&
+				descending == viewQuery.descending &&
+				skip == viewQuery.skip &&
+				group == viewQuery.group &&
+				groupLevel == viewQuery.groupLevel &&
+				reduce == viewQuery.reduce &&
+				includeDocs == viewQuery.includeDocs &&
+				inclusiveEnd == viewQuery.inclusiveEnd &&
+				ignoreNotFound == viewQuery.ignoreNotFound &&
+				updateSeq == viewQuery.updateSeq &&
+				cacheOk == viewQuery.cacheOk &&
+				Objects.equals(queryParams, viewQuery.queryParams) &&
+				Objects.equals(mapper, viewQuery.mapper) &&
+				Objects.equals(dbPath, viewQuery.dbPath) &&
+				Objects.equals(designDocId, viewQuery.designDocId) &&
+				Objects.equals(viewName, viewQuery.viewName) &&
+				Objects.equals(key, viewQuery.key) &&
+				Objects.equals(keys, viewQuery.keys) &&
+				Objects.equals(startKey, viewQuery.startKey) &&
+				Objects.equals(startDocId, viewQuery.startDocId) &&
+				Objects.equals(endKey, viewQuery.endKey) &&
+				Objects.equals(endDocId, viewQuery.endDocId) &&
+				Objects.equals(staleOk, viewQuery.staleOk) &&
+				Objects.equals(cachedQuery, viewQuery.cachedQuery) &&
+				Objects.equals(listName, viewQuery.listName);
 	}
+
 	public void setIgnoreNotFound(boolean ignoreNotFound) {
 		this.ignoreNotFound = ignoreNotFound;
 	}

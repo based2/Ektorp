@@ -33,7 +33,7 @@ public class CouchDbRepositorySupportConstructionTest {
     public void given_design_doc_and_not_createIfExists_constructor_should_not_call_createDatabaseIfNotExists() {
         final String designDoc = "my_design_doc";
 
-        new CouchDbRepositorySupport<CouchDbRepositorySupportTest.TestDoc>(CouchDbRepositorySupportTest.TestDoc.class, db, designDoc, false);
+        new CouchDbRepositorySupport<>(CouchDbRepositorySupportTest.TestDoc.class, db, designDoc, false);
 
         verify(db, never()).createDatabaseIfNotExists();
     }
@@ -42,7 +42,7 @@ public class CouchDbRepositorySupportConstructionTest {
     public void given_design_doc_andt_createIfExists_constructor_should_call_createDatabaseIfNotExists() {
         final String designDoc = "my_design_doc";
 
-        new CouchDbRepositorySupport<CouchDbRepositorySupportTest.TestDoc>(CouchDbRepositorySupportTest.TestDoc.class, db, designDoc, true);
+        new CouchDbRepositorySupport<>(CouchDbRepositorySupportTest.TestDoc.class, db, designDoc, true);
 
         verify(db, times(1)).createDatabaseIfNotExists();
     }

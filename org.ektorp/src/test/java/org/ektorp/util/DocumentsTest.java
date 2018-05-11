@@ -18,7 +18,7 @@ public class DocumentsTest {
 	AnnotatedDoc annotatedDoc = new AnnotatedDoc();
 	PrivateAnnotatedDoc privAnnotatedDoc = new PrivateAnnotatedDoc();
 	ConstructorAnnotatedDoc constDoc = new ConstructorAnnotatedDoc("id_4");
-	Map<String, Object> mapDoc = new HashMap<String, Object>();
+	Map<String, Object> mapDoc = new HashMap<>();
 	JsonNode nodeDoc;
 
 	@Before

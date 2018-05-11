@@ -134,7 +134,7 @@ public class SimpleViewGenerator {
 	}
 
 	private String resolveTypeDiscriminator(final Class<?> persistentType) {
-		final List<String> discrimintators = new ArrayList<String>();
+		final List<String> discrimintators = new ArrayList<>();
 		TypeDiscriminator td = persistentType
 				.getAnnotation(TypeDiscriminator.class);
 		if (td != null) {

@@ -1,6 +1,5 @@
 package org.ektorp.impl.jackson;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class EktorpAnnotationIntrospector extends NopAnnotationIntrospector {
 		return names.contains(m.getName());
 	}
 
-	// https://stackoverflow.com/questions/14056716/disable-jackson-mapper-for-a-particular-annotation
+	// TODO fix deprecation https://stackoverflow.com/questions/14056716/disable-jackson-mapper-for-a-particular-annotation
 	@Override
 	public String[] findPropertiesToIgnore(Annotated ac) {
 		if(ac instanceof AnnotatedClass){

@@ -34,7 +34,7 @@ public interface DocumentChange {
      * @return the collection of revisions, including conflicts
      * @since 1.4.0
      */
-    public List<String> getRevisions();
+     List<String> getRevisions();
 
 	/**
 	 *

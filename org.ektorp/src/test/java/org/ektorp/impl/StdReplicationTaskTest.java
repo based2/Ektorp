@@ -67,15 +67,10 @@ public class StdReplicationTaskTest {
 	private ActiveTask readResourceAsActiveTask(String resourceName) throws IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ActiveTask activeTask;
-		InputStream resourceAsStream = null;
-		try {
-			resourceAsStream = getClass().getResourceAsStream(resourceName);
+		try (InputStream resourceAsStream = getClass().getResourceAsStream(resourceName)) {
 			activeTask = objectMapper.readValue(resourceAsStream, StdActiveTask.class);
-		} finally {
-			IOUtils.closeQuietly(resourceAsStream);
 		}
 		return activeTask;
 	}
-
 
 }

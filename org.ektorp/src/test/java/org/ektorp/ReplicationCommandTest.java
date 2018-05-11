@@ -6,6 +6,7 @@ import org.ektorp.util.JSONComparator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,8 @@ public class ReplicationCommandTest {
 									.build();
 		
 		String actual = mapper.writeValueAsString(rc);
-		String expected = IOUtils.toString(getClass().getResourceAsStream("basic_replication_command.json"));
+		String expected = IOUtils.toString(getClass()
+				.getResourceAsStream("basic_replication_command.json"), StandardCharsets.UTF_8);
 		assertTrue(JSONComparator.areEqual(actual, expected));
 	}
 	
@@ -55,7 +57,8 @@ public class ReplicationCommandTest {
 									.build();
 		
 		String actual = mapper.writeValueAsString(rc);
-		String expected = IOUtils.toString(getClass().getResourceAsStream("full_replication_command.json"));
+		String expected = IOUtils.toString(
+				getClass().getResourceAsStream("full_replication_command.json"), StandardCharsets.UTF_8);
 		assertTrue(JSONComparator.areEqual(actual, expected));
 	}
 
@@ -80,7 +83,8 @@ public class ReplicationCommandTest {
                 .build();
 
         String actual = mapper.writeValueAsString(cmd);
-        String expected = IOUtils.toString(getClass().getResourceAsStream("full_replication_with_since_command.json"));
+        String expected = IOUtils.toString(
+				getClass().getResourceAsStream("full_replication_with_since_command.json"), StandardCharsets.UTF_8);
         assertTrue(JSONComparator.areEqual(actual, expected));
     }
 
@@ -106,7 +110,8 @@ public class ReplicationCommandTest {
                 .build();
 
         String json = mapper.writeValueAsString(cmd);
-        String expected = IOUtils.toString(getClass().getResourceAsStream("full_replication_with_since_as_cloudant_command.json"));
+        String expected = IOUtils.toString(
+        		getClass().getResourceAsStream("full_replication_with_since_as_cloudant_command.json"), StandardCharsets.UTF_8);
         assertTrue(JSONComparator.areEqual(json, expected));
     }
 

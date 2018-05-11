@@ -122,7 +122,7 @@ public class DbInfo implements Serializable {
 
 	private Map<String, Object> unknownFields() {
 		if (unknownFields == null) {
-			unknownFields = new HashMap<String, Object>();
+			unknownFields = new HashMap<>();
 		}
 		return unknownFields;
 	}

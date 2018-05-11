@@ -9,7 +9,7 @@ import org.ektorp.support.*;
 public class NoCascadeLounge extends CouchDbDocument {
 
 	@DocumentReferences(fetch = FetchType.EAGER, backReference="loungeId", cascade = CascadeType.NONE)
-	private Set<Person> seatedPeople = new LinkedHashSet<Person>();
+	private Set<Person> seatedPeople = new LinkedHashSet<>();
 	private String color;
 	
 	public Set<Person> getSeatedPeople() {

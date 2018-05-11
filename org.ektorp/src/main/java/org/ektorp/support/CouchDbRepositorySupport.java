@@ -130,7 +130,7 @@ public class CouchDbRepositorySupport<T> implements GenericRepository<T> {
 
 	private List<T> loadAllByAllDocIds() {
 		List<String> ids = db.getAllDocIds();
-		List<T> all = new ArrayList<T>(ids.size());
+		List<T> all = new ArrayList<>(ids.size());
 		for (String id : ids) {
 			if (!id.startsWith("_design")) {
 				all.add(get(id));

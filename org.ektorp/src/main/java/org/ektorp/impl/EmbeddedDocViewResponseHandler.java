@@ -21,14 +21,14 @@ public class EmbeddedDocViewResponseHandler<T> extends
 	public EmbeddedDocViewResponseHandler(Class<T> docType, ObjectMapper om) {
 		Assert.notNull(om, "ObjectMapper may not be null");
 		Assert.notNull(docType, "docType may not be null");
-		parser = new QueryResultParser<T>(docType, om);
+		parser = new QueryResultParser<>(docType, om);
 	}
 
 	public EmbeddedDocViewResponseHandler(Class<T> docType, ObjectMapper om,
 			boolean ignoreNotFound) {
 		Assert.notNull(om, "ObjectMapper may not be null");
 		Assert.notNull(docType, "docType may not be null");
-		parser = new QueryResultParser<T>(docType, om);
+		parser = new QueryResultParser<>(docType, om);
 		parser.setIgnoreNotFound(ignoreNotFound);
 	}
 

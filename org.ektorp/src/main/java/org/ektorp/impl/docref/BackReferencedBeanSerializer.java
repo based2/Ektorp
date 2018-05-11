@@ -39,7 +39,7 @@ public class BackReferencedBeanSerializer<T> extends JsonSerializer<T> {
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
 
-		Set<Object> docsToSave = new LinkedHashSet<Object>();
+		Set<Object> docsToSave = new LinkedHashSet<>();
 		try {
 
 			for (BeanPropertyWriter writer : documentReferenceFields) {
@@ -82,7 +82,9 @@ public class BackReferencedBeanSerializer<T> extends JsonSerializer<T> {
 		int maxErrors = 10;
 		for (DocumentOperationResult docResult : res) {
 			if (maxErrors == 0) {
-				sb.append(".. " + res.size() + " more ");
+				sb.append(".. ");
+				sb.append(res.size());
+				sb.append(" more ");
 				break;
 			}
 			sb.append(docResult.getId());

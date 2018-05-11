@@ -64,7 +64,7 @@ public class DocIdResponseHandler extends StdResponseHandler<List<String>> {
                     }
 
                     jp.nextToken();
-                    result = new ArrayList<String>(jp.getIntValue());
+                    result = new ArrayList<>(jp.getIntValue());
                 } else if ("rows".equals(fieldName)) {
                     if (result == null) {
                         throw new DbAccessException("total_rows is required to be included in value before rows");

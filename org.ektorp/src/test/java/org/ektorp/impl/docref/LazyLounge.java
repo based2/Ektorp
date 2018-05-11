@@ -8,7 +8,7 @@ import org.ektorp.docref.*;
 public class LazyLounge extends BasicSofa {
 
 	@DocumentReferences(fetch = FetchType.LAZY, backReference = "loungeId")
-	private Set<Person> seatedPeople = new LinkedHashSet<Person>();
+	private Set<Person> seatedPeople = new LinkedHashSet<>();
 
 	public void setSeatedPeople(Set<Person> seatedPeople) {
 		this.seatedPeople = seatedPeople;
