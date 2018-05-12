@@ -135,19 +135,18 @@ public class SimpleViewGenerator {
 
 	private String resolveTypeDiscriminator(final Class<?> persistentType) {
 		final List<String> discrimintators = new ArrayList<>();
-		TypeDiscriminator td = persistentType
-				.getAnnotation(TypeDiscriminator.class);
+		TypeDiscriminator td = persistentType.getAnnotation(TypeDiscriminator.class);
 		if (td != null) {
 			if (td.value().length() == 0) {
 				throw new ViewGenerationException(
 						String.format(
-								"@TypeDiscriminator declared on type level must specify custom discriminator condition",
+								"%s declared on type level must specify custom discriminator condition",
 								persistentType));
 			}
 			if (hasTypeDiscriminatorFieldOrMethod(persistentType)) {
 				throw new ViewGenerationException(
 						String.format(
-								"@TypeDiscriminator declared on type level may not be combined with @TypeDiscriminator in fields or on methods",
+								"%s declared on type level may not be combined with @TypeDiscriminator in fields or on methods",
 								persistentType));
 			}
 			return td.value();

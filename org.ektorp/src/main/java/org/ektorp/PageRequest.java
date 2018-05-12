@@ -54,11 +54,9 @@ public class PageRequest {
 		return new Builder().pageSize(pageSize).build();
 	}
 
-	public PageRequest.Builder nextRequest(Object nextStartKey,
-			String nextStartDocId) {
+	public PageRequest.Builder nextRequest(Object nextStartKey, String nextStartDocId) {
 		try {
-			JsonNode keyNode = MAPPER.readTree(MAPPER
-					.writeValueAsString(nextStartKey));
+			JsonNode keyNode = MAPPER.readTree(MAPPER.writeValueAsString(nextStartKey));
 			return new Builder(this)
 						.nextKey(new KeyIdPair(keyNode, nextStartDocId));
 		} catch (IOException e) {
@@ -73,10 +71,9 @@ public class PageRequest {
 		this.pageSize = b.pageSize;
 	}
 
-	public static PageRequest fromLink(String link) {
+	public static PageRequest fromLink(final String link) {
 		try {
-			JsonNode n = MAPPER.readTree(new ByteArrayInputStream(Base64
-					.decode(link, Base64.URL_SAFE)));
+			JsonNode n = MAPPER.readTree(new ByteArrayInputStream(base64.decode(link, Base64.URL_SAFE)));
 
 			JsonNode keyNode = n.get(NEXT_KEY_FIELD_NAME);
 			JsonNode docIdNode = n.get(NEXT_DOCID_FIELD_NAME);
@@ -119,11 +116,13 @@ public class PageRequest {
 			key = null;
 		}
 		return key;
-	} 
+	}
+
+	private final static Base64 base64 = new Base64();
 	
 	public String asLink() {
 		try {
-			return Base64.encodeBytes(MAPPER.writeValueAsBytes(asJson()),
+			return base64.encodeBytes(MAPPER.writeValueAsBytes(asJson()),
 					Base64.URL_SAFE);
 		} catch (Exception e) {
 			throw Exceptions.propagate(e);

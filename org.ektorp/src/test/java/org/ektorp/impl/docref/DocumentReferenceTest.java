@@ -74,7 +74,7 @@ public class DocumentReferenceTest {
 		nisse.setShoeSize(52);
 		nisse.setRevision("123D123");
 		
-		assertEquals(true, ektorp.getSeatedPeople().contains(nisse));
+		assertTrue(ektorp.getSeatedPeople().contains(nisse));
 
 		verify(httpClient)
 				.getUncached(Matchers
@@ -91,7 +91,7 @@ public class DocumentReferenceTest {
 		assertNotNull(lounge);
 		Iterator<Person> seatedPeopleIterator = lounge.getSeatedPeople()
 				.iterator();
-		assertEquals(true, seatedPeopleIterator.hasNext());
+		assertTrue(seatedPeopleIterator.hasNext());
 		
 		Person nextReferencedDoc = seatedPeopleIterator.next();
 		verifyLoungeGET();
@@ -161,8 +161,7 @@ public class DocumentReferenceTest {
 	public void untouched_member_of_lazy_collection_should_not_cause_update() throws IOException {
 		setupGetDocResponseForDocWithBackReferences();
 		LazyLounge sofa = dbCon.get(LazyLounge.class, TEST_LOUNGE_ID);
-		
-		
+
 		setupUpdateResponse();
 
 		String rev = sofa.getRevision().isEmpty() ? "" : "\"_rev\":\""

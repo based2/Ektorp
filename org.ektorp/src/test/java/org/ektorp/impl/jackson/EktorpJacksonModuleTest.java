@@ -39,7 +39,8 @@ public class EktorpJacksonModuleTest {
 		p.addChild(new ChildDoc("cid","crev"));
 
 		String json = mapper.writeValueAsString(p);
-		assertFalse("children field should be absent from json", json.matches(".*children.*"));
+		assertFalse("children field should be absent from json",
+				json.matches(".*children.*"));
 	}
 
 	@Test

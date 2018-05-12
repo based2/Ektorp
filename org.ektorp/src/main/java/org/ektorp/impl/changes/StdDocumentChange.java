@@ -68,7 +68,7 @@ public class StdDocumentChange implements DocumentChange {
 	}
 
     public List<String> getRevisions() {
-       final List<String> revisions = new ArrayList<>();
+        final List<String> revisions = new ArrayList<>();
         for (JsonNode changesNode : node.get(CHANGES_FIELD_NAME)) {
             revisions.add(nodeAsString(changesNode.get(REV_FIELD_NAME)));
         }
