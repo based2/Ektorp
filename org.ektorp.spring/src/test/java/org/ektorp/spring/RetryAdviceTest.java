@@ -15,7 +15,7 @@ import org.junit.*;
 public class RetryAdviceTest {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 	}
 
 	@Test

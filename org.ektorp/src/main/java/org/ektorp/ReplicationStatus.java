@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.Map;
  *
  * @author henrik lundgren
  *
+ * http://docs.couchdb.org/en/stable/replication/protocol.html
  */
 public class ReplicationStatus extends Status implements Serializable {
 
@@ -38,7 +42,7 @@ public class ReplicationStatus extends Status implements Serializable {
 	@JsonProperty("history")
 	List<History> history;
 
-	private Map<String, Object> unknownFields;
+	private Map<String, Object> unknownFields = new HashMap<>();
 
 	public boolean isOk() {
 		return ok;
@@ -70,23 +74,32 @@ public class ReplicationStatus extends Status implements Serializable {
 
 	private Map<String, Object> unknown() {
 		if (unknownFields == null) {
-			unknownFields = new HashMap<String, Object>();
+			unknownFields = new HashMap<>();
 		}
 		return unknownFields;
 	}
 
 	@JsonAnySetter
-	public void setUnknown(String key, Object value) {
+	public void setUnknown(final String key, final Object value) {
 		unknown().put(key, value);
 	}
 
-	public Object getField(String key) {
+	public Object getField(final String key) {
 		return unknown().get(key);
+	}
+
+	// https://stackoverflow.com/questions/4861228/how-to-handle-a-findbugs-non-transient-non-serializable-instance-field-in-seria
+	private void writeObject(final ObjectOutputStream stream) throws IOException {
+		stream.defaultWriteObject();
+	}
+
+	private void readObject(final ObjectInputStream stream) throws IOException, ClassNotFoundException {
+		stream.defaultReadObject();
 	}
 
 	public static class History {
 
-		private Map<String, Object> unknownFields;
+		private Map<String, Object> unknownFields = new HashMap<>();
 
 		@JsonProperty("session_id")
 		String sessionId;
@@ -175,7 +188,7 @@ public class ReplicationStatus extends Status implements Serializable {
 
 		private Map<String, Object> unknown() {
 			if (unknownFields == null) {
-				unknownFields = new HashMap<String, Object>();
+				unknownFields = new HashMap<>();
 			}
 			return unknownFields;
 		}

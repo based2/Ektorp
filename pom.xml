@@ -54,11 +54,11 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>1.6.6</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
 
         <joda.time.version>2.3</joda.time.version><!-- 2.9.9 -->
-        <jackson.version>2.6.7.1</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.5
+        <jackson.version>2.6.7</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.5
             https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.6.7.x CVE.
             https://github.com/FasterXML/jackson-databind/issues/2032
          -->
@@ -232,6 +232,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
+                    <failOnError>false</failOnError>
                     <additionalparam>${javadoc.opts}</additionalparam>
                 </configuration>
                 <executions>
@@ -243,6 +244,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                     </execution>
                 </executions>
             </plugin>
+            <!-- mvn findbugs:gui findbugs "La méthode utilsant" -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
@@ -258,7 +260,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <skip>false</skip>
+                            <skip>true</skip>
                         </configuration>
                     </execution>
                 </executions>
@@ -281,18 +283,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
             </testResource>
         </testResources>
     </build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
+
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
@@ -322,18 +313,6 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
             </build>
         </profile>
 
-        <profile>
-            <id>maven-2</id>
-            <activation>
-                <file>
-                    <!-- basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
-                    <missing>${basedir}</missing>
-                </file>
-            </activation>
-            <properties>
-                <sonarVersion>1.0</sonarVersion>
-            </properties>
-        </profile>
         <profile>
             <id>maven-3</id>
             <activation>
@@ -374,5 +353,41 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                 <failOnError>false</failOnError>
             </properties>
         </profile>
+
+        <profile>
+            <id>errorProne</id>
+            <build>
+                <plugins>
+                <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <compilerId>javac-with-errorprone</compilerId>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                    <!-- maven-compiler-plugin defaults to targeting Java 5, but our javac
+                         only supports >=6 -->
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-compiler-javac-errorprone</artifactId>
+                        <version>2.8.3</version>
+                    </dependency>
+                    <!-- override plexus-compiler-javac-errorprone's dependency on
+                         Error Prone with the latest version -->
+                    <dependency>
+                        <groupId>com.google.errorprone</groupId>
+                        <artifactId>error_prone_core</artifactId>
+                        <version>2.3.1</version>
+                    </dependency>
+                </dependencies>
+                </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>
