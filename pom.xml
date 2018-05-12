@@ -6,6 +6,9 @@
     <name>Ektorp Parent</name>
     <version>1.5.1-SNAPSHOT</version>
     <description>a Java CouchDB persistence library</description>
+    <!-- http://debuguide.blogspot.fr/2013/01/quick-guide-for-migration-of-commons.html
+https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
+     -->
     <scm>
         <connection>scm:git:git@github.com:helun/Ektorp.git</connection>
         <url>scm:git:git@github.com:helun/Ektorp.git</url>
@@ -54,8 +57,11 @@
         <slf4j.version>1.6.6</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
 
-        <joda.time.version>2.3</joda.time.version>
-        <jackson.version>2.6.7</jackson.version>
+        <joda.time.version>2.3</joda.time.version><!-- 2.9.9 -->
+        <jackson.version>2.6.7.1</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.5
+            https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.6.7.x CVE.
+            https://github.com/FasterXML/jackson-databind/issues/2032
+         -->
         <spring.version>3.2.18.RELEASE</spring.version>
         <commons.io.version>2.6</commons.io.version>
         <httpclient.version>4.3.6</httpclient.version>
@@ -64,6 +70,7 @@
         <mockito.version>1.8.5</mockito.version>
         <junit.version>4.12</junit.version>
         <assertj.version>3.9.1</assertj.version>
+        <jsonassert.version>1.5.0</jsonassert.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
@@ -73,16 +80,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
@@ -135,29 +132,21 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit-dep</artifactId>
-                <version>4.11</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda.time.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- http://joel-costigliola.github.io/assertj/assertj-news.html -->
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- http://jsonassert.skyscreamer.org/cookbook.html -->
             <dependency>
                 <groupId>org.skyscreamer</groupId>
                 <artifactId>jsonassert</artifactId>
-                <version>1.5.0</version>
+                <version>${jsonassert.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
@@ -292,7 +281,18 @@
             </testResource>
         </testResources>
     </build>
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Nexus Release Repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
@@ -322,6 +322,18 @@
             </build>
         </profile>
 
+        <profile>
+            <id>maven-2</id>
+            <activation>
+                <file>
+                    <!-- basedir expression is only recognized by Maven 3.x (see MNG-2363) -->
+                    <missing>${basedir}</missing>
+                </file>
+            </activation>
+            <properties>
+                <sonarVersion>1.0</sonarVersion>
+            </properties>
+        </profile>
         <profile>
             <id>maven-3</id>
             <activation>
@@ -359,43 +371,8 @@
             </activation>
             <properties>
                 <javadoc.opts>-Xdoclint:none</javadoc.opts>
+                <failOnError>false</failOnError>
             </properties>
         </profile>
-
-        <profile>
-            <id>errorProne</id>
-            <build>
-                <plugins>
-                <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <compilerId>javac-with-errorprone</compilerId>
-                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
-                    <!-- maven-compiler-plugin defaults to targeting Java 5, but our javac
-                         only supports >=6 -->
-                    <source>7</source>
-                    <target>7</target>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-compiler-javac-errorprone</artifactId>
-                        <version>2.8.3</version>
-                    </dependency>
-                    <!-- override plexus-compiler-javac-errorprone's dependency on
-                         Error Prone with the latest version -->
-                    <dependency>
-                        <groupId>com.google.errorprone</groupId>
-                        <artifactId>error_prone_core</artifactId>
-                        <version>2.3.1</version>
-                    </dependency>
-                </dependencies>
-                </plugin>
-                </plugins>
-            </build>
-        </profile>
-
     </profiles>
 </project>
