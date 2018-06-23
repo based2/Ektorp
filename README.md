@@ -117,7 +117,7 @@ Here's an trivial example class:
 ```java
 import org.codehaus.jackson.annotate.*;
 
-@JsonWriteNullProperties(false)
+@JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties({"id", "revision"})
 public class Sofa {
 
@@ -209,7 +209,7 @@ If you are using Maven:
 <dependency>
     <groupId>org.ektorp</groupId>
     <artifactId>org.ektorp</artifactId>
-    <version>1.4.4</version>
+    <version>1.5.0</version>
 </dependency>
 ```
 
