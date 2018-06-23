@@ -15,6 +15,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class StdDocumentChangeTest {
 
@@ -49,8 +50,7 @@ public class StdDocumentChangeTest {
             assertMandatoryFields(m);
             assertTrue(m.isDeleted());
         } catch (IOException e) {
-            e.printStackTrace();
-            fail("");
+            fail("", e);
         }
 	}
 
@@ -64,8 +64,7 @@ public class StdDocumentChangeTest {
             assertNotNull(m.getDocAsNode().findValue("_id"));
             assertNotNull(m.getDocAsNode().findValue("_rev"));
         } catch (IOException e) {
-            e.printStackTrace();
-            fail("");
+            fail("", e);
         }
 	}
 
@@ -79,8 +78,7 @@ public class StdDocumentChangeTest {
             assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
             assertFalse(objectUnderTest.isDeleted());
         } catch (IOException e) {
-            e.printStackTrace();
-            fail("");
+            fail("", e);
         }
     }
 
@@ -92,15 +90,14 @@ public class StdDocumentChangeTest {
             assertThat(objectUnderTest.getRevision(), is("rev-first"));
             assertThat(objectUnderTest.getRevisions(), notNullValue());
             List<String> revisions = objectUnderTest.getRevisions();
-            org.assertj.core.api.Assertions.assertThat(revisions).containsExactly("rev-first", "rev-second", "rev-third");
+            assertThat(revisions).containsExactly("rev-first", "rev-second", "rev-third");
             //assertThat(objectUnderTest.getRevisions(), hasItems("rev-first", "rev-second", "rev-third"));
             assertThat(objectUnderTest.getRevisions().size(), is(3));
             assertNull(objectUnderTest.getDoc());
             assertTrue(objectUnderTest.getDocAsNode().isMissingNode());
             assertFalse(objectUnderTest.isDeleted());
         } catch (IOException e) {
-            e.printStackTrace();
-            fail("");
+            fail("", e);
         }
     }
 

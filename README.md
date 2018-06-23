@@ -218,3 +218,8 @@ Getting Help
 You can usually get quick answers at the [Ektorp google group](http://groups.google.com/group/ektorp-discuss)
 
 [jackson]: http://wiki.fasterxml.com/JacksonHome
+
+=====
+One or more dependencies were identified with known vulnerabilities in Ektorp:
+
+jackson-databind-2.6.7.jar (com.fasterxml.jackson.core:jackson-databind:2.6.7, cpe:/a:fasterxml:jackson-databind:2.6.7, cpe:/a:fasterxml:jackson:2.6.7) : CVE-2017-15095, CVE-2017-17485, CVE-2017-7525, CVE-2018-7489, CVE-2018-5968

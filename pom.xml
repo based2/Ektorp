@@ -58,18 +58,24 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
         <log4j.version>1.2.17</log4j.version>
 
         <joda.time.version>2.3</joda.time.version><!-- 2.9.9 -->
-        <jackson.version>2.6.7</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.5
+        <jackson.version>2.6.7</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.6
             https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.6.7.x CVE.
             https://github.com/FasterXML/jackson-databind/issues/2032
+            https://abi-laboratory.pro/java/tracker/timeline/jackson-databind/
+            https://fasterxml.github.io/jackson-databind/javadoc/2.7/deprecated-list.html
          -->
         <spring.version>3.2.18.RELEASE</spring.version>
         <commons.io.version>2.6</commons.io.version>
-        <httpclient.version>4.3.6</httpclient.version>
+        <httpclient.version>4.4.1</httpclient.version>
         <aspectj.version>1.6.12</aspectj.version>
-
-        <mockito.version>1.8.5</mockito.version>
+        <!--
+         https://github.com/mockito/mockito/wiki/What%27s-new-in-Mockito-2
+         https://dzone.com/articles/migration-to-mockito-21
+         https://github.com/NagRock/ts-mockito/wiki/ts-mockito-1.x-to-2.x-migration-guide
+         -->
+        <mockito.version>2.19.0</mockito.version>
         <junit.version>4.12</junit.version>
-        <assertj.version>3.9.1</assertj.version>
+        <assertj.version>2.9.1</assertj.version>
         <jsonassert.version>1.5.0</jsonassert.version>
 
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
@@ -121,7 +127,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
+                <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -230,7 +236,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
             <plugin>
                 <!-- http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html -->
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
                 <configuration>
                     <failOnError>false</failOnError>
                     <additionalparam>${javadoc.opts}</additionalparam>
@@ -244,24 +250,28 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                     </execution>
                 </executions>
             </plugin>
-            <!-- mvn findbugs:gui findbugs "La méthode utilsant" -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <configuration>
-                    <skip>${findbugs.skip}</skip>
-                    <fork>true</fork>
-                    <includeTests>${findbugs.includeTests}</includeTests>
-                </configuration>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.3</version>
+                <dependencies>
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>3.1.5</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
-                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

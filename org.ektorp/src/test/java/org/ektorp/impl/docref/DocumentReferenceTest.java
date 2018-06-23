@@ -154,7 +154,6 @@ public class DocumentReferenceTest {
 		referencedPerson = seatedPeopleIterator.next();
 
 		assertEquals("lisa", referencedPerson.getId());
-
 	}
 
 	@Test
@@ -164,14 +163,11 @@ public class DocumentReferenceTest {
 
 		setupUpdateResponse();
 
-		String rev = sofa.getRevision().isEmpty() ? "" : "\"_rev\":\""
-				+ sofa.getRevision() + "\",";
+		String rev = sofa.getRevision().isEmpty() ? "" : "\"_rev\":\"" + sofa.getRevision() + "\",";
 
-		String expectedJSON = String.format(
-				"{\"color\":\"blue\",%s\"_id\":\"lounge_id\"}", rev);
+		String expectedJSON = String.format("{\"color\":\"blue\",%s\"_id\":\"lounge_id\"}", rev);
 
-		String expectedChildDocumentSaveJSON = String.format(
-				readFile("expected_lounge_persons_update.json"), rev, rev);
+		String expectedChildDocumentSaveJSON = String.format(readFile("expected_lounge_persons_update.json"), rev, rev);
 
 		when(
 				httpClient.post(Matchers.matches(".*_bulk_docs"),
@@ -181,8 +177,7 @@ public class DocumentReferenceTest {
 
 		dbCon.update(sofa);
 		verifyLoungeGET();
-		verify(httpClient).put(anyString(),
-				argThat(new JSONMatcher(expectedJSON)));
+		verify(httpClient).put(anyString(), argThat(new JSONMatcher(expectedJSON)));
 		verifyNoMoreInteractions(httpClient);
 
 	}

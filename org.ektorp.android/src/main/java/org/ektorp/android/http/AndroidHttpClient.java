@@ -67,8 +67,7 @@ public class AndroidHttpClient extends StdHttpClient {
         }
 
         @Override
-        public ClientConnectionManager configureConnectionManager(
-                HttpParams params) {
+        public ClientConnectionManager configureConnectionManager(HttpParams params) {
             if (conman == null) {
                 SchemeRegistry schemeRegistry = new SchemeRegistry();
                 schemeRegistry.register(configureScheme());

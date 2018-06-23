@@ -223,15 +223,19 @@ public class StdCouchDbConnectorTest {
     public void throw_exception_when_in_conflict() {
         td.setId("some_id");
         td.setRevision("123D123");
-        doReturn(ResponseOnFileStub.newInstance(409, "update_conflict.json")).when(httpClient).put(anyString(), anyString());
+        doReturn(ResponseOnFileStub.newInstance(409, "update_conflict.json"))
+                .when(httpClient)
+                .put(anyString(), anyString());
         dbCon.update(td);
     }
 
-    @Test(expected = UpdateConflictException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void throw_exception_when_create_attachment_in_conflict() {
         td.setId("some_id");
         td.setRevision("123D123");
-        doReturn(ResponseOnFileStub.newInstance(409, "update_conflict.json")).when(httpClient).put(anyString(), any(InputStream.class), anyString(), anyInt());
+        doReturn(ResponseOnFileStub.newInstance(409, "update_conflict.json"))
+                .when(httpClient)
+                .put(anyString(), any(InputStream.class), anyString(), anyInt());
         dbCon.createAttachment("id", "rev", new AttachmentInputStream("attach_id", IOUtils.toInputStream("data"),
                 "whatever"));
     }
@@ -697,7 +701,9 @@ public class StdCouchDbConnectorTest {
         Options options = new Options().param(paramName, paramValue);
 
         String expectedPath = "/test_db/" + id + "?some_param=false";
-        doReturn(null).when(httpClient).put(eq(expectedPath), any(InputStream.class), anyString(), anyLong());
+        doReturn(null)
+                .when(httpClient)
+                .put(eq(expectedPath), any(InputStream.class), anyString(), anyLong());
         dbCon.updateMultipart(id, null, "abc", 0, options);
 
         verify(httpClient).put(eq(expectedPath), any(InputStream.class), anyString(), anyLong());

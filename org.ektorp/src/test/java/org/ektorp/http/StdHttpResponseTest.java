@@ -12,22 +12,19 @@ import java.util.UUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.*;
 
-public class StdHttpResponseTest
-{
+public class StdHttpResponseTest {
 	private HttpUriRequest uriRequest;
 	private HttpResponse apacheResponse;
 
 	@Before
-	public void setUp() throws URISyntaxException
-	{
+	public void setUp() throws URISyntaxException {
 		apacheResponse = mock(HttpResponse.class);
-
 		uriRequest = mock(HttpUriRequest.class);
+
 		java.net.URI requestURI = new java.net.URI("http://tempuri.org/");
-		stub(uriRequest.getURI()).toReturn(requestURI);
+		when(uriRequest.getURI()).thenReturn(requestURI);
 	}
 
 	@Test
@@ -36,8 +33,8 @@ public class StdHttpResponseTest
 		String revision = UUID.randomUUID().toString();
 		String eTag = "\"" + revision + "\"";
 		Header eTagHeader = mock(Header.class);
-		stub(eTagHeader.getValue()).toReturn(eTag);
-		stub(apacheResponse.getFirstHeader("ETag")).toReturn(eTagHeader);
+		when(eTagHeader.getValue()).thenReturn(eTag);
+		when(apacheResponse.getFirstHeader("ETag")).thenReturn(eTagHeader);
 
 		assertThat(StdHttpResponse.of(apacheResponse, uriRequest).getETag(), is(revision));
 	}

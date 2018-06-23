@@ -13,7 +13,7 @@ import org.mockito.*;
  *
  */
 
-class InputStreamAsJsonMatcher extends ArgumentMatcher<InputStream> {
+class InputStreamAsJsonMatcher implements ArgumentMatcher<InputStream> {
 
 	final String expected;
 	final ObjectMapper objectMapper;
@@ -28,8 +28,7 @@ class InputStreamAsJsonMatcher extends ArgumentMatcher<InputStream> {
 
 		char[] buf = new char[1024];
 		try {
-			Reader reader = new BufferedReader(new InputStreamReader(is,
-					"UTF-8"));
+			Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			int n;
 			while ((n = reader.read(buf)) != -1) {
 				writer.write(buf, 0, n);
@@ -40,12 +39,8 @@ class InputStreamAsJsonMatcher extends ArgumentMatcher<InputStream> {
 		return writer.toString();
 	}
 
-	@Override
-	public boolean matches(Object argument) {
-		if (argument instanceof InputStream) {
-
-			BufferedInputStream bis = new BufferedInputStream(
-					(InputStream) argument);
+	public boolean matches(InputStream argument) {
+			BufferedInputStream bis = new BufferedInputStream(argument);
 
 			String actual = "";
 			try {
@@ -58,9 +53,6 @@ class InputStreamAsJsonMatcher extends ArgumentMatcher<InputStream> {
 			} catch (IOException e) {
 				throw new RuntimeException(e.getMessage() + " s: " + actual, e);
 			}
-
-		}
-		return false;
 	}
 
 }
