@@ -340,9 +340,13 @@ public class StdCouchDbConnectorTest {
 
     @Test
     public void should_stream_attachmed_content() {
-        doReturn(ResponseOnFileStub.newInstance(200, "create_attachment_rsp.json")).when(httpClient).put(anyString(), any(InputStream.class), anyString(), anyInt());
+        //doReturn(ResponseOnFileStub.newInstance(200, "create_attachment_rsp.json"))
 
-        dbCon.createAttachment("docid", new AttachmentInputStream("attachment_id", IOUtils.toInputStream("content"),
+        when(httpClient.put(anyString(), any(InputStream.class), anyString(), anyInt()))
+            .thenReturn(ResponseOnFileStub.newInstance(200, "create_attachment_rsp.json"));
+
+        dbCon.createAttachment("docid",
+                new AttachmentInputStream("attachment_id", IOUtils.toInputStream("content"),
                 "text/html", 12l));
 
         verify(httpClient).put(eq("/test_db/docid/attachment_id"), any(InputStream.class), eq("text/html"), eq(12l));
@@ -701,9 +705,10 @@ public class StdCouchDbConnectorTest {
         Options options = new Options().param(paramName, paramValue);
 
         String expectedPath = "/test_db/" + id + "?some_param=false";
-        doReturn(null)
-                .when(httpClient)
-                .put(eq(expectedPath), any(InputStream.class), anyString(), anyLong());
+        //doReturn(any(HttpResponse.class))
+        when(httpClient.put(eq(expectedPath), isA(InputStream.class), isA(String.class), isA(Long.class)))
+                .thenReturn(any(HttpResponse.class));
+
         dbCon.updateMultipart(id, null, "abc", 0, options);
 
         verify(httpClient).put(eq(expectedPath), any(InputStream.class), anyString(), anyLong());
@@ -723,7 +728,9 @@ public class StdCouchDbConnectorTest {
     public void updateMultipart_should_perform_put_operation_with_content_type_set_to_multipart_related_with_boundary() {
         String boundary = UUID.randomUUID().toString();
         String expectedContentType = "multipart/related; boundary=\"" + boundary + "\"";
-        doReturn(null).when(httpClient).put(anyString(), any(InputStream.class), eq(expectedContentType), anyLong());
+        //doReturn(null)
+        when(httpClient.put(anyString(), any(InputStream.class), eq(expectedContentType), anyLong()))
+            .thenReturn(null);
         dbCon.updateMultipart("a", null, boundary, 0, null);
         verify(httpClient).put(anyString(), any(InputStream.class), eq(expectedContentType), anyLong());
     }
@@ -736,7 +743,9 @@ public class StdCouchDbConnectorTest {
     @Test
     public void updateMultipart_should_perform_put_operation_with_content_type_set_to_length() {
         long length = 1000l;
-        doReturn(null).when(httpClient).put(anyString(), any(InputStream.class), anyString(), eq(length));
+        //doReturn(null
+        when(httpClient.put(anyString(), any(InputStream.class), anyString(), eq(length)))
+            .thenReturn(null);
 
         dbCon.updateMultipart("a", null, "abc", length, null);
 

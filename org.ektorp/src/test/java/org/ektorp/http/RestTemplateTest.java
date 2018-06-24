@@ -18,11 +18,13 @@ import org.junit.*;
  */
 public class RestTemplateTest {
 
-	HttpClient client;
+	private HttpClient client;
+	private HttpResponse response;
 	
 	@Before
 	public void setUp() throws Exception {
 		client = mock(HttpClient.class);
+		response = mock(HttpResponse.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -170,15 +172,19 @@ public class RestTemplateTest {
 	@Test
 	public void exceptions_in_put4_should_be_rethrown_and_connection_released() {
 		RestTemplate template = new RestTemplate(client);
-		HttpResponse rsp = mock(HttpResponse.class);
 		
-		when(client.put(anyString(), any(InputStream.class), anyString(), anyInt())).thenReturn(rsp);
-		when(rsp.isSuccessful()).thenReturn(Boolean.TRUE);
+		when(client.put(anyString(), any(InputStream.class), anyString(), anyInt()))
+				.thenReturn(response);
+		when(response.isSuccessful()).thenReturn(Boolean.TRUE);
 		
-		template.put("/some/path", IOUtils.toInputStream("content"), "text/html", 12l);
+		template.put("/some/path", IOUtils.toInputStream("content"),
+				"text/html", 12l);
 		
-		verify(client).put(eq("/some/path"), any(InputStream.class), eq("text/html"), eq(12l));
-		verify(rsp).releaseConnection();
+		when(client.put(eq("/some/path"), any(InputStream.class),
+				eq("text/html"), eq(12l)))
+				.thenReturn(response);
+
+		response.releaseConnection();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -215,7 +221,8 @@ public class RestTemplateTest {
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void exceptions_in_put3_should_be_rethrown_error_not_called_and_connection_released() throws Exception {
+	public void exceptions_in_put3_should_be_rethrown_error_not_called_and_connection_released()
+			throws Exception {
 		RestTemplate template = new RestTemplate(client);
 		ResponseCallback<String> callback = mock(ResponseCallback.class);
 		HttpResponse rsp = mock(HttpResponse.class);

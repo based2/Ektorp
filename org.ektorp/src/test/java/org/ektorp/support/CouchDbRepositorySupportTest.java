@@ -162,7 +162,7 @@ public class CouchDbRepositorySupportTest {
 		repo.initStandardDesignDocument();
 		assertTrue(dd.containsView("by_field"));
 
-		verify(db).update(any(Map.class));
+		verify(db).update(any(DesignDocument.class));
 	}
 
 

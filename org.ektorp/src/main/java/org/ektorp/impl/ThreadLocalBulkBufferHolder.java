@@ -8,12 +8,12 @@ import java.util.*;
  */
 public class ThreadLocalBulkBufferHolder {
 
-	private static final ThreadLocal<List<Object>> currentBulkBuffer = new ThreadLocal<List<Object>>();
+	private static final ThreadLocal<List<Object>> currentBulkBuffer = new ThreadLocal<>();
 	
 	public void add(Object o) {
 		List<Object> buffer = currentBulkBuffer.get();
 		if (buffer == null) {
-			buffer = new ArrayList<Object>();
+			buffer = new ArrayList<>();
 			currentBulkBuffer.set(buffer);
 		}
 		buffer.add(o);

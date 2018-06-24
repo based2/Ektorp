@@ -67,7 +67,7 @@ public class QueryResultParser<T> {
             throw new DbAccessException("Expected data to start with an Object");
         }
 
-        Map<String, String> errorFields = new HashMap<String, String>();
+        Map<String, String> errorFields = new HashMap<>();
         // Issue #98: Can't assume order of JSON fields.
         while (jp.nextValue() != JsonToken.END_OBJECT) {
             String currentName = jp.getCurrentName();

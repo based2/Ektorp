@@ -18,8 +18,8 @@ public class SecurityGroup implements Serializable {
     private final List<String> roles;
 
     public SecurityGroup() {
-        this.names = new ArrayList<String>();
-        this.roles = new ArrayList<String>();
+        this.names = new ArrayList<>();
+        this.roles = new ArrayList<>();
     }
 
     @JsonCreator

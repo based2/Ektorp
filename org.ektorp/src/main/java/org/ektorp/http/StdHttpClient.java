@@ -53,8 +53,7 @@ public class StdHttpClient implements HttpClient {
 
 	private final org.apache.http.client.HttpClient client;
 	private final org.apache.http.client.HttpClient backend;
-	private final static Logger LOG = LoggerFactory
-			.getLogger(StdHttpClient.class);
+	private final static Logger LOG = LoggerFactory.getLogger(StdHttpClient.class);
 
 	public StdHttpClient(org.apache.http.client.HttpClient hc) {
 		this(hc, hc);
@@ -177,8 +176,10 @@ public class StdHttpClient implements HttpClient {
 			} else {
 				rsp = client.execute(getHttpHost(), request);
 			}
-			LOG.trace("{} {} {} {}", new Object[] { request.getMethod(), request.getURI(),
-					rsp.getStatusLine().getStatusCode(), rsp.getStatusLine().getReasonPhrase() });
+			if (LOG.isTraceEnabled()) {
+				LOG.trace("{} {} {} {}", new Object[]{request.getMethod(), request.getURI(),
+						rsp.getStatusLine().getStatusCode(), rsp.getStatusLine().getReasonPhrase()});
+			}
 			return createHttpResponse(rsp, request);
 		} catch (Exception e) {
 			throw Exceptions.propagate(e);
@@ -312,8 +313,7 @@ public class StdHttpClient implements HttpClient {
 			return this;
 		}
 
-		public ClientConnectionManager configureConnectionManager(
-				HttpParams params) {
+		public ClientConnectionManager configureConnectionManager(HttpParams params) {
 			if (conman == null) {
 				SchemeRegistry schemeRegistry = new SchemeRegistry();
 				schemeRegistry.register(configureScheme());

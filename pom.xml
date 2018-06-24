@@ -58,7 +58,7 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
         <log4j.version>1.2.17</log4j.version>
 
         <joda.time.version>2.3</joda.time.version><!-- 2.9.9 -->
-        <jackson.version>2.6.7</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.6
+        <jackson.version>2.2.2</jackson.version><!-- 2.6.7 2.7.9*errors 2.9.6
             https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.6.7.x CVE.
             https://github.com/FasterXML/jackson-databind/issues/2032
             https://abi-laboratory.pro/java/tracker/timeline/jackson-databind/
@@ -66,9 +66,11 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
          -->
         <spring.version>3.2.18.RELEASE</spring.version>
         <commons.io.version>2.6</commons.io.version>
-        <httpclient.version>4.4.1</httpclient.version>
+        <httpclient.version>4.2.5</httpclient.version>
         <aspectj.version>1.6.12</aspectj.version>
         <!--
+        https://stackoverflow.com/questions/21430378/mockito-isa-any
+        https://github.com/mockito/mockito/issues/185
          https://github.com/mockito/mockito/wiki/What%27s-new-in-Mockito-2
          https://dzone.com/articles/migration-to-mockito-21
          https://github.com/NagRock/ts-mockito/wiki/ts-mockito-1.x-to-2.x-migration-guide
@@ -131,6 +133,19 @@ https://github.com/FasterXML/jackson/wiki/Jackson-Release-2.7
                 <version>${mockito.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.objenesis</groupId>
+                <artifactId>objenesis</artifactId>
+                <version>2.6</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>1.8.12</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- before, mockito dependencies updates -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

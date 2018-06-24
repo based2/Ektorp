@@ -223,3 +223,5 @@ You can usually get quick answers at the [Ektorp google group](http://groups.goo
 One or more dependencies were identified with known vulnerabilities in Ektorp:
 
 jackson-databind-2.6.7.jar (com.fasterxml.jackson.core:jackson-databind:2.6.7, cpe:/a:fasterxml:jackson-databind:2.6.7, cpe:/a:fasterxml:jackson:2.6.7) : CVE-2017-15095, CVE-2017-17485, CVE-2017-7525, CVE-2018-7489, CVE-2018-5968
+
+spring-core-3.2.18.RELEASE.jar (cpe:/a:pivotal_software:spring_framework:3.2.18, cpe:/a:springsource:spring_framework:3.2.18, org.springframework:spring-core:3.2.18.RELEASE, cpe:/a:pivotal:spring_framework:3.2.18) : CVE-2018-1258, CVE-2018-1271, CVE-2018-1270, CVE-2016-5007, CVE-2018-1272

@@ -9,8 +9,9 @@ import org.apache.http.client.protocol.*;
 import org.apache.http.impl.auth.*;
 import org.apache.http.protocol.*;
 /**
- * Interceptor that preemptively introduces an instance of BasicScheme to the execution context, if no authentication has been attempted yet. 
- *
+ * Interceptor that preemptively introduces
+ * an instance of BasicScheme to the execution context,
+ * if no authentication has been attempted yet.
  */
 public class PreemptiveAuthRequestInterceptor implements HttpRequestInterceptor {
 
@@ -38,5 +39,4 @@ public class PreemptiveAuthRequestInterceptor implements HttpRequestInterceptor 
             }
         }
     }
-
 }
