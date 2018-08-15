@@ -1,9 +1,9 @@
 package org.ektorp.impl.docref;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,7 +40,7 @@ public class DocumentReferenceDeserializerTest {
 	private void setupLoungeWithLoadableBackrefs() {
 		when(httpClient.get("/test_db/lounge_id")).thenReturn(
 				ResponseOnFileStub.newInstance(200, "docref/lounge.json"));
-		when(httpClient.getUncached(Matchers.matches(".*_docrefs_.*"))).thenReturn(
+		when(httpClient.getUncached(Mockito.matches(".*_docrefs_.*"))).thenReturn(
 				ResponseOnFileStub.newInstance(200,
 						"docref/setlounge_persons_nisse_kalle.json"));
 	}
@@ -85,16 +85,16 @@ public class DocumentReferenceDeserializerTest {
 		}
 		rev = rev.isEmpty() ? "" : "\"_rev\":\"" + rev + "\",";
 		when(
-				httpClient.post(Matchers.matches(".*_bulk_docs"),any(InputStream.class))).thenReturn(
+				httpClient.post(Mockito.matches(".*_bulk_docs"),any(InputStream.class))).thenReturn(
 				HttpResponseStub.valueOf(201, ""));
 		dbCon.update(sofa);
 
 		String expectedJSON = String.format(
 				"{\"color\":\"blue\",%s\"_id\":\"lounge_id\"}", rev);
-		verify(httpClient).put(Matchers.matches(".*/lounge_id"),
+		verify(httpClient).put(Mockito.matches(".*/lounge_id"),
 				argThat(new JSONMatcher(expectedJSON)));
-		verify(httpClient).post(Matchers.matches(".*_bulk_docs"),
-				Matchers.any(InputStream.class));
+		verify(httpClient).post(Mockito.matches(".*_bulk_docs"),
+				Mockito.any(InputStream.class));
 	}
 
 }

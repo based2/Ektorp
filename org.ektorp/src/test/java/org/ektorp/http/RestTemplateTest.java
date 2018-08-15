@@ -1,7 +1,6 @@
 package org.ektorp.http;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.io.*;

@@ -117,26 +117,26 @@ public class StdHttpClient implements HttpClient {
 	}
 
 	@Override
-	public HttpResponse put(String uri, String content) {
+	public HttpResponse put(final String uri, final String content) {
 		return executePutPost(new HttpPut(uri), content, false);
 	}
 
 	@Override
-	public HttpResponse put(String uri) {
+	public HttpResponse put(final String uri) {
 		return executeRequest(new HttpPut(uri));
 	}
 
 	@Override
-	public HttpResponse put(String uri, InputStream data, String contentType,
-			long contentLength) {
-		InputStreamEntity e = new InputStreamEntity(data, contentLength);
+	public HttpResponse put(final String uri, final InputStream data, final String contentType,
+							final long contentLength) {
+		final InputStreamEntity e = new InputStreamEntity(data, contentLength);
 		e.setContentType(contentType);
 		return put(uri, e);
 	}
 
 	@Override
-	public HttpResponse put(String uri, HttpEntity httpEntity) {
-		HttpPut hp = new HttpPut(uri);
+	public HttpResponse put(final String uri, final HttpEntity httpEntity) {
+		final HttpPut hp = new HttpPut(uri);
 		hp.setEntity(httpEntity);
 		return executeRequest(hp);
 	}
@@ -461,7 +461,7 @@ public class StdHttpClient implements HttpClient {
 		 * @param cm
 		 * @return
 		 */
-		public Builder connectionManager(ClientConnectionManager cm) {
+		public Builder connectionManager(final ClientConnectionManager cm) {
 			conman = cm;
 			return this;
 		}
@@ -473,7 +473,7 @@ public class StdHttpClient implements HttpClient {
 		 * @param s
 		 * @return
 		 */
-		public Builder enableSSL(boolean b) {
+		public Builder enableSSL(final boolean b) {
 			enableSSL = b;
 			return this;
 		}
@@ -486,7 +486,7 @@ public class StdHttpClient implements HttpClient {
 		 * @param f
 		 * @return
 		 */
-		public Builder sslSocketFactory(SSLSocketFactory f) {
+		public Builder sslSocketFactory(final SSLSocketFactory f) {
 			sslSocketFactory = f;
 			return this;
 		}
@@ -498,7 +498,7 @@ public class StdHttpClient implements HttpClient {
 		 * @param b
 		 * @return
 		 */
-		public Builder relaxedSSLSettings(boolean b) {
+		public Builder relaxedSSLSettings(final boolean b) {
 			relaxedSSLSettings = b;
 			return this;
 		}
@@ -511,7 +511,7 @@ public class StdHttpClient implements HttpClient {
 		 * @param b
 		 * @return
 		 */
-		public Builder useExpectContinue(boolean b) {
+		public Builder useExpectContinue(final boolean b) {
 			useExpectContinue = b;
 			return this;
 		}
@@ -528,9 +528,10 @@ public class StdHttpClient implements HttpClient {
 
 	}
 
-        // separate class to avoid runtime dependency to httpclient-cache unless using caching
+    /** separate class to avoid runtime dependency to httpclient-cache unless using caching */
 	public static class WithCachingBuilder {
-		public static org.apache.http.client.HttpClient withCaching(org.apache.http.client.HttpClient client, int maxCacheEntries, int maxObjectSizeBytes) {
+		public static org.apache.http.client.HttpClient withCaching(
+				org.apache.http.client.HttpClient client, int maxCacheEntries, int maxObjectSizeBytes) {
 			CacheConfig cacheConfig = new CacheConfig();  
 			cacheConfig.setMaxCacheEntries(maxCacheEntries);
 			cacheConfig.setMaxObjectSize(maxObjectSizeBytes);

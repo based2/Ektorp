@@ -27,11 +27,11 @@ import java.util.*;
 import static java.lang.String.format;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.*;
 
 public class StdCouchDbConnectorTest {
@@ -705,9 +705,10 @@ public class StdCouchDbConnectorTest {
         Options options = new Options().param(paramName, paramValue);
 
         String expectedPath = "/test_db/" + id + "?some_param=false";
-        //doReturn(any(HttpResponse.class))
+       // doReturn(any(HttpResponse.class))
         when(httpClient.put(eq(expectedPath), isA(InputStream.class), isA(String.class), isA(Long.class)))
                 .thenReturn(any(HttpResponse.class));
+        // Mockito.when(byteBuffer.array()).thenReturn("some-string".getBytes());
 
         dbCon.updateMultipart(id, null, "abc", 0, options);
 
@@ -766,7 +767,6 @@ public class StdCouchDbConnectorTest {
 
         doReturn(null).when(httpClient).put(expectedPath, inputStream, expectedContentType, documentLength);
         dbCon.update(documentId, inputStream, documentLength, options);
-
 
         verify(httpClient).put(expectedPath, inputStream, expectedContentType, documentLength);
     }

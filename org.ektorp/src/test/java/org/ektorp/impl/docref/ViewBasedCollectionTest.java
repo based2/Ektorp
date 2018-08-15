@@ -1,18 +1,15 @@
 package org.ektorp.impl.docref;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.lang.reflect.*;
 import java.util.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ClassUtil;
 
 import org.ektorp.*;
 import org.ektorp.docref.*;
-import org.ektorp.impl.*;
 import org.ektorp.support.*;
 import org.ektorp.util.*;
 import org.junit.*;
@@ -68,8 +65,8 @@ public class ViewBasedCollectionTest {
 
 	@SuppressWarnings("unchecked")
 	private void setupViewResponse() {
-		List<TestChildType> result = Arrays.asList(child1, child2);
-		when(db.queryView(any(ViewQuery.class), any(Class.class))).thenReturn(result);
+		final List<TestChildType> result = Arrays.asList(child1, child2);
+		when(db.<List<TestChildType>>queryView(any(ViewQuery.class), any(Class.class))).thenReturn(result);
 	}
 
 	private DocumentReferences getRefsWithCascadeNone() {

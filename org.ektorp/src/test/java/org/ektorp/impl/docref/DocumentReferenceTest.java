@@ -1,7 +1,6 @@
 package org.ektorp.impl.docref;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 import java.io.*;
@@ -37,16 +36,16 @@ public class DocumentReferenceTest {
 
 	private void setupGetDocResponseForDocWithBackReferences() {
 
-		when(httpClient.get(Matchers.matches(".*lounge_id"))).thenReturn(
+		when(httpClient.get(Mockito.matches(".*lounge_id"))).thenReturn(
 				ResponseOnFileStub.newInstance(200, "docref/lounge.json"));
-		when(httpClient.get(Matchers.matches(".*nisse"))).thenReturn(
+		when(httpClient.get(Mockito.matches(".*nisse"))).thenReturn(
 				ResponseOnFileStub.newInstance(200,
 						"docref/lounge_person_nisse.json"));
-		when(httpClient.get(Matchers.matches(".*kalle"))).thenReturn(
+		when(httpClient.get(Mockito.matches(".*kalle"))).thenReturn(
 				ResponseOnFileStub.newInstance(200,
 						"docref/lounge_person_kalle.json"));
 		
-		when(httpClient.getUncached(Matchers.matches(".*_docrefs_.*"))).thenAnswer(new Answer<ResponseOnFileStub>()
+		when(httpClient.getUncached(Mockito.matches(".*_docrefs_.*"))).thenAnswer(new Answer<ResponseOnFileStub>()
 				{
 
 					public ResponseOnFileStub answer(InvocationOnMock invocation) throws Throwable {
@@ -77,7 +76,7 @@ public class DocumentReferenceTest {
 		assertTrue(ektorp.getSeatedPeople().contains(nisse));
 
 		verify(httpClient)
-				.getUncached(Matchers
+				.getUncached(Mockito
 						.matches("/test_db/_design/LazyLounge/_view/ektorp_docrefs_seatedPeople\\?" +
 								"startkey=%5B%22lounge_id%22%2C%22seatedPeople%22%5D&" +
 								"endkey=%5B%22lounge_id%22%2C%22seatedPeople%22%2C%7B%7D%5D.*"));
@@ -110,14 +109,14 @@ public class DocumentReferenceTest {
 	}
 
 	private void verifyLoungeGET() {
-		verify(httpClient).get(Matchers.matches(".*" + TEST_LOUNGE_ID));
+		verify(httpClient).get(Mockito.matches(".*" + TEST_LOUNGE_ID));
 	}
 
 	@Test
 	public void back_referenced_document_should_update_referrers_when_updated() {
 		when(
-				httpClient.post(Matchers.matches(".*all_docs.*"),
-						Matchers.any(String.class))).thenReturn(
+				httpClient.post(Mockito.matches(".*all_docs.*"),
+						Mockito.any(String.class))).thenReturn(
 				ResponseOnFileStub.newInstance(200,
 						"docref/setlounge_persons_nisse_kalle.json"));
 
@@ -130,7 +129,7 @@ public class DocumentReferenceTest {
 		updateLounge(lounge);
 		String expectedJSON = String.format(
 				"{\"color\":\"blue\",%s\"_id\":\"lounge_id\"}", "");
-		verify(httpClient).put(Matchers.matches(".*/lounge_id"),
+		verify(httpClient).put(Mockito.matches(".*/lounge_id"),
 				argThat(new JSONMatcher(expectedJSON)));
 		verifyExecuteBulk();
 	}
@@ -170,7 +169,7 @@ public class DocumentReferenceTest {
 		String expectedChildDocumentSaveJSON = String.format(readFile("expected_lounge_persons_update.json"), rev, rev);
 
 		when(
-				httpClient.post(Matchers.matches(".*_bulk_docs"),
+				httpClient.post(Mockito.matches(".*_bulk_docs"),
 						argThat(new InputStreamAsJsonMatcher(
 								expectedChildDocumentSaveJSON)))).thenReturn(
 				HttpResponseStub.valueOf(201, ""));
@@ -211,12 +210,12 @@ public class DocumentReferenceTest {
 	}
 
 	private void verifyExecuteBulk() {
-		verify(httpClient).post(Matchers.matches(".*_bulk_docs"),
-				Matchers.any(InputStream.class));
+		verify(httpClient).post(Mockito.matches(".*_bulk_docs"),
+				Mockito.any(InputStream.class));
 	}
 
 	private void verifyDocRefsLoaded() {
-		verify(httpClient).getUncached(Matchers.matches(".*_docrefs_.*"));
+		verify(httpClient).getUncached(Mockito.matches(".*_docrefs_.*"));
 	}
 
 	public String readFile(String fileName) throws IOException {
@@ -234,7 +233,7 @@ public class DocumentReferenceTest {
 		setupUpdateResponse();
 		
 		when(
-				httpClient.post(Matchers.matches(".*_bulk_docs"),
+				httpClient.post(Mockito.matches(".*_bulk_docs"),
 						any(InputStream.class))).thenReturn(
 				HttpResponseStub.valueOf(201, ""));
 
